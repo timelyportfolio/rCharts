@@ -10,7 +10,7 @@ hitheme: solarized_light
 ---
 
 ```{r echo = F, message = F, cache = F}
-options(RCHART_WIDTH = 600, RCHART_HEIGHT = 400)
+options(RCHART_WIDTH = 800, RCHART_HEIGHT = 600)
 knitr::opts_chunk$set(
   comment = NA,
   results = 'asis',
