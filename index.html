@@ -1,16 +1,49 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>rCharts</title>
-    <link rel="stylesheet" href="libraries/frameworks/minimal/stylesheets/styles.css">
-    <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/solarized_light.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-        <link rel=stylesheet href="libraries/widgets/morris/css/morris.css"></link>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>rCharts</title>
+  <!-- Always force latest IE rendering engine -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Ramnath Vaidyanathan">
+  
+  <link rel="icon" type="image/png" href="img/slidify_logo_notext.png">
+  
+  <link href="libraries/frameworks/bootplus/assets/css/bootplus.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/bootplus-responsive.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/font-awesome.min.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/docs.css" rel="stylesheet">
+  <link href="libraries/highlighters/prettify/css/twitter-bootstrap.css" rel="stylesheet">
+  
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+  
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <![endif]-->
+  
+  
+  <style>
+    p {
+      text-align: justify;
+    }
+    .nav [class^="icon-"] {
+      line-height: normal;
+    }
+    
+    ol.linenums {
+      
+    }
+  </style>
+  
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="libraries/frameworks/bootplus/assets/ico/favicon.png">  <link rel=stylesheet href="libraries/widgets/morris/css/morris.css"></link>
 <link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
 <link rel=stylesheet href="libraries/widgets/xcharts/css/xcharts.min.css"></link>
 <link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet.css"></link>
@@ -20,7 +53,8 @@
 <link rel=stylesheet href="libraries/widgets/rickshaw/css/jquery-ui.css"></link>
 <link rel=stylesheet href="libraries/widgets/rickshaw/css/rickshaw-rcharts.css"></link>
 
-    <script src="libraries/widgets/morris/js/jquery.min.js"></script>
+  <script src="libraries/frameworks/bootplus/assets/js/jquery.js"></script>
+  <script src="libraries/widgets/morris/js/jquery.min.js"></script>
 <script src="libraries/widgets/morris/js/raphael-2.1.0.min.js"></script>
 <script src="libraries/widgets/morris/js/morris.min.js"></script>
 <script src="libraries/widgets/nvd3/js/d3.v2.min.js"></script>
@@ -35,61 +69,89 @@
 <script src="libraries/widgets/rickshaw/js/rickshaw.min.js"></script>
 <script src="libraries/widgets/rickshaw/js/jquery-ui.min.js"></script>
 
-  </head>
-  <body>
-    <div class="wrapper">
-<header>
-  <h1><img src=libraries/frameworks/minimal/images/rCharts.png /></h1>
-  <p>Interactive Charts from R using rCharts</p>
-  <pre><code class='r'>require(devtools)
-install_github('rCharts', 'ramnathv')</code></pre>
-  <p class="view">
-    <a href="http://github.com/ramnathv/rCharts">
-     View the Project on GitHub <small>ramnathv/rCharts</small>
-    </a>
-  </p>
-  <ul class='buttons'>
-    <li><a href="https://github.com/ramnathv/rCharts/zipball/gh-pages">
-      Download <strong>ZIP File</strong>
-    </a></li>
-    <li><a href="https://github.com/ramnathv/rCharts/tarball/gh-pages">
-      Download <strong>TAR Ball</strong>
-    </a></li>
-    <li><a href="http://github.com/ramnathv/rCharts">
-      Fork On <strong>GitHub</strong></a>
-    </li>
-  </ul>
-    <ol>
-    </ol>
-</header>
-
-      <section>
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+  
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">
+              <!-- <img src='assets/img/slidify_logo.png' width='100px' /> -->
+              
+            </a>
+            <iframe class="pull-right" style="margin-top:10px;" src="http://ghbtns.com/github-btn.html?user=ramnathv&repo=rCharts&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+            <iframe class="pull-right" style="margin-top:10px;" src="http://ghbtns.com/github-btn.html?user=ramnathv&repo=rCharts&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>rCharts</h1>
+      <p class="lead">
         
-<style>
+      </p>
+    </div>
+  </header>
+  
+  <div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav">
+        <li><a href="#slide-1"> rCharts</a></li>
+        <li><a href="#slide-2"> Installation</a></li>
+        <li><a href="#slide-3"> Features</a></li>
+        <li><a href="#slide-4"> Create</a></li>
+        <li><a href="#slide-5"> Share</a></li>
+        <li><a href="#slide-6"> More</a></li>
+      </ul>
+    </div>
+    
+    <div class="span8">
+      <section id="slide-1">
+  <div class="page-header">
+    <h1>rCharts</h1>
+  </div>
+  <style>
 .rChart {
   height: 400px
 }
 </style>
 
-<h1>rCharts</h1>
-
 <p>rCharts is an R package to create, customize and publish interactive javascript visualizations from R using a familiar lattice style plotting interface.</p>
 
-<h2>Installation</h2>
-
-<p>You can install <code>rCharts</code> from <code>github</code> using the <code>devtools</code> package</p>
+</section>
+<section id="slide-2">
+  <div class="page-header">
+    <h1>Installation</h1>
+  </div>
+  <p>You can install <code>rCharts</code> from <code>github</code> using the <code>devtools</code> package</p>
 
 <pre><code class="coffee">require(devtools)
 install_github(&#39;rCharts&#39;, &#39;ramnathv&#39;)
 </code></pre>
 
-<h2>Features</h2>
+</section>
+<section id="slide-3">
+  <div class="page-header">
+    <h1>Features</h1>
+  </div>
+  <p>The design philosophy behind rCharts is to make the process of creating, customizing and sharing interactive visualizations easy. </p>
 
-<p>The design philosophy behind rCharts is to make the process of creating, customizing and sharing interactive visualizations easy. </p>
-
-<h3>Create</h3>
-
-<p><code>rCharts</code> uses a formula interface to specify plots, just like the <code>lattice</code> package. Here are a few examples you can try out in your R console.</p>
+</section>
+<section id="slide-4">
+  <div class="page-header">
+    <h1>Create</h1>
+  </div>
+  <p><code>rCharts</code> uses a formula interface to specify plots, just like the <code>lattice</code> package. Here are a few examples you can try out in your R console.</p>
 
 <pre><code class="coffee">## Example 1 Facetted Scatterplot
 names(iris) = gsub(&quot;\\.&quot;, &quot;&quot;, names(iris))
@@ -100,9 +162,11 @@ hair_eye = as.data.frame(HairEyeColor)
 rPlot(Freq ~ Hair | Eye, color = &#39;Eye&#39;, data = hair_eye, type = &#39;bar&#39;)
 </code></pre>
 
-<h3>Customize</h3>
+<h3>Customize with Libraries</h3>
 
 <p>rCharts supports multiple javascript charting libraries, each with its own strengths. Each of these libraries has multiple customization options, most of which are supported within rCharts. More documentation is underway on how to use rCharts with each of these libraries.</p>
+
+<hr>
 
 <h4><a href="https://github.com/Polychart/polychart2">Polychart</a>.</h4>
 
@@ -4040,6 +4104,7 @@ m1$print(&quot;chart2&quot;)
 <hr>
 
 <h4><a href="http://nvd3.org">NVD3</a></h4>
+
 <p>Next, I will demonstrate my all time favorite d3js library, NVD3, which produces amazing interactive visualizations with little customization.</p>
 
 <pre><code class="r">hair_eye_male &lt;- subset(as.data.frame(HairEyeColor), Sex == &quot;Male&quot;)
@@ -4050,7 +4115,7 @@ n1$print(&quot;chart3&quot;)
 <div id='chart3' class='rChart nvd3'></div>
 
 <script type='text/javascript'>
-    $(document).ready(function(){
+ $(document).ready(function(){
       drawchart3()
     });
     function drawchart3(){  
@@ -4179,6 +4244,8 @@ n1$print(&quot;chart3&quot;)
         
           
         
+
+        
         
         
       
@@ -4199,6 +4266,7 @@ n1$print(&quot;chart3&quot;)
 <hr>
 
 <h4><a href="https://github.com/tenXer/xcharts/">xCharts</a></h4>
+
 <p>xCharts is a slick looking charting library using d3js, made by TenXer. Let&#39;s see it.</p>
 
 <pre><code class="r">require(reshape2)
@@ -4352,6 +4420,7 @@ x1$print(&quot;chart4&quot;)
 <hr>
 
 <h4><a href="http://www.highcharts.com/">HighCharts</a></h4>
+
 <pre><code class="r">h1 &lt;- hPlot(x = &quot;Wr.Hnd&quot;, y = &quot;NW.Hnd&quot;, data = MASS::survey, type = c(&quot;line&quot;, 
     &quot;bubble&quot;, &quot;scatter&quot;), group = &quot;Clap&quot;, size = &quot;Age&quot;)
 h1$print(&quot;chart5&quot;)
@@ -5607,6 +5676,7 @@ h1$print(&quot;chart5&quot;)
 <hr>
 
 <h4><a href="http://leafletjs.com/">Leaflet</a></h4>
+
 <pre><code class="r">map3 &lt;- Leaflet$new()
 map3$setView(c(51.505, -0.09), zoom = 13)
 map3$marker(c(51.5, -0.09), bindPopup = &quot;&lt;p&gt; Hi. I am a popup &lt;/p&gt;&quot;)
@@ -5673,6 +5743,7 @@ L
 <hr>
 
 <h4><a href="https://github.com/shutterstock/rickshaw">Rickshaw</a></h4>
+
 <pre><code class="r">usp = reshape2::melt(USPersonalExpenditure)
 # get the decades into a date Rickshaw likes
 usp$Var2 &lt;- as.numeric(as.POSIXct(paste0(usp$Var2, &quot;-01-01&quot;)))
@@ -5684,9 +5755,8 @@ p4$print(&quot;chart6&quot;)
 </code></pre>
 
 <div class='chart_container'>
- <div id='chart6' class='rChart rickshaw'></div>
   <div id='yAxischart6' class='yAxis'></div>
-  <!-- <div id='xAxischart6' class='xAxis'></div> -->
+  <div id='chart6' class='rChart rickshaw'></div>
   <div id='legendchart6' class='legend'></div>
   <div id='sliderchart6' class='slider'></div>
 </div>
@@ -5983,10 +6053,14 @@ var sliderchart6 = new Rickshaw.Graph.RangeSlider({
   
 </script> 
 
-<hr>
+</section>
+<section id="slide-5">
+  <div class="page-header">
+    <h1>Share</h1>
+  </div>
+  <p>rCharts allows you to share your visualization in multiple ways, as a standalone page, embedded in a shiny application, or in a tutorial/blog post.</p>
 
-<h3>Share</h3>
-<p>rCharts allows you to share your visualization in multiple ways, as a standalone page, embedded in a shiny application, or in a tutorial/blog post.</p>
+<hr>
 
 <h4>Standalone</h4>
 
@@ -5999,6 +6073,8 @@ r1 &lt;- rPlot(SepalLength ~ SepalWidth | Species, data = iris,
 r1$publish(&#39;Scatterplot&#39;, host = &#39;gist&#39;)
 r1$publish(&#39;Scatterplot&#39;, host = &#39;rpubs&#39;)
 </code></pre>
+
+<hr>
 
 <h4>Shiny Application</h4>
 
@@ -6037,6 +6113,8 @@ shinyUI(pageWithSidebar(
 ))
 </code></pre>
 
+<hr>
+
 <h4>Blog Post</h4>
 
 <p>rCharts can also be embedded into an Rmd document using <code>knit2html</code> or in a blog post using <code>slidify</code>. Here are a few examples of tutorials written using <code>rCharts</code> and <code>slidify</code>.</p>
@@ -6046,9 +6124,12 @@ shinyUI(pageWithSidebar(
 <li><a href="http://ramnathv.github.io/rChartsNYT/">NY Times Graphics Tutorial</a></li>
 </ol>
 
-<h2>More</h2>
-
-<h3>Credits</h3>
+</section>
+<section id="slide-6">
+  <div class="page-header">
+    <h1>More</h1>
+  </div>
+  <h3>Credits</h3>
 
 <p>Most of the implementation in <code>rCharts</code> is inspired by <a href="https://github.com/metagraf/rHighcharts">rHighcharts</a> and <a href="https://github.com/metagraf/rVega">rVega</a>. I have reused some code from these packages verbatim, and would like to acknowledge the efforts of its author <a href="https://github.com/reinholdsson">Thomas Reinholdsson</a>.</p>
 
@@ -6066,25 +6147,28 @@ shinyUI(pageWithSidebar(
 <li><a href="https://github.com/metagraf/rVega">rVega</a> by <a href="https://github.com/reinholdsson">Thomas Reinholdsson</a></li>
 </ul>
 
-      </section>
-      <footer>
-        <p>Maintained by <a href="http://github.com/ramnathv">
-          Ramnath Vaidyanathan
-        </a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by 
-          <a href="https://github.com/orderedlist">orderedlist</a></small>
-        </p>
-      </footer>    </div>
-    <script src="libraries/frameworks/minimal/javascripts/scale.fix.js"></script>
-  </body>
-  <!-- Load Javascripts for Widgets -->
+</section>
+    </div>
+  </div>
+  </div> <!-- container -->
+  
+  
+</body>
+  <script src="libraries/frameworks/bootplus/assets/js/bootstrap.min.js"></script>
+  <script src="libraries/frameworks/bootplus/assets/js/application.js"></script>
   
   <script src='libraries/widgets/nvd3/js/d3.v2.js'></script>
   <script src='libraries/widgets/nvd3/js/nv.d3.min.js'></script>
   
-  <!-- LOAD HIGHLIGHTER JS FILES -->
-  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
-   
+  <!-- Google Prettify -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+  <script src='libraries/highlighters/prettify/js/lang-r.js'></script>
+  <script>
+    var pres = document.getElementsByTagName("pre");
+    for (var i=0; i < pres.length; ++i) {
+      pres[i].className = "prettyprint linenums";
+    }
+    prettyPrint();
+  </script>
+  <!-- End Google Prettify --> 
   </html>

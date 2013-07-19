@@ -3,12 +3,15 @@ title: rCharts
 subtitle: Interactive Charts from R using rCharts
 author: Ramnath Vaidyanathan
 github: {user: ramnathv, repo: rCharts, branch: "gh-pages"}
-framework: minimal
+framework: bootplus
+layout: post
 mode: selfcontained
 ext_widgets: {rCharts: ["libraries/morris","libraries/nvd3", "libraries/polycharts", "libraries/highcharts","libraries/xcharts", "libraries/leaflet", "libraries/rickshaw"]}
-hitheme: solarized_light
-logo: libraries/frameworks/minimal/images/rCharts.png
+highlighter: prettify
+hitheme: twitter-bootstrap
 ---
+# rCharts
+
 
 <style>
 .rChart {
@@ -16,11 +19,9 @@ logo: libraries/frameworks/minimal/images/rCharts.png
 }
 </style>
 
-
-# rCharts
-
 rCharts is an R package to create, customize and publish interactive javascript visualizations from R using a familiar lattice style plotting interface.
 
+---
 ## Installation
 
 You can install `rCharts` from `github` using the `devtools` package
@@ -30,6 +31,7 @@ require(devtools)
 install_github('rCharts', 'ramnathv')
 ```
 
+---
 ## Features
 
 The design philosophy behind rCharts is to make the process of creating, customizing and sharing interactive visualizations easy. 
@@ -37,6 +39,7 @@ The design philosophy behind rCharts is to make the process of creating, customi
 
 
 
+---
 ### Create
 
 `rCharts` uses a formula interface to specify plots, just like the `lattice` package. Here are a few examples you can try out in your R console.
@@ -51,10 +54,11 @@ hair_eye = as.data.frame(HairEyeColor)
 rPlot(Freq ~ Hair | Eye, color = 'Eye', data = hair_eye, type = 'bar')
 ```
 
-### Customize
+### Customize with Libraries
 
 rCharts supports multiple javascript charting libraries, each with its own strengths. Each of these libraries has multiple customization options, most of which are supported within rCharts. More documentation is underway on how to use rCharts with each of these libraries.
 
+- - -
 #### [Polychart](https://github.com/Polychart/polychart2).
 
 We will create our first chart using Polychart, a javascript charting library based on the grammar of graphics, and inspired by ggplot2.
@@ -128,8 +132,8 @@ graph_chart1.addHandler(function(type, e){
   }
 })
 </script>
----
 
+- - -
 #### [Morris](https://github.com/oesmith/morris.js)
 
 The next library we will be exploring is MorrisJS.
@@ -3994,9 +3998,6 @@ m1$print("chart2")
 Hurray! There we have our second chart!
 
 - - -
-
----
-
 #### [NVD3](http://nvd3.org)
 
 Next, I will demonstrate my all time favorite d3js library, NVD3, which produces amazing interactive visualizations with little customization.
@@ -4011,7 +4012,7 @@ n1$print("chart3")
 
 <div id='chart3' class='rChart nvd3'></div>
 <script type='text/javascript'>
-    $(document).ready(function(){
+ $(document).ready(function(){
       drawchart3()
     });
     function drawchart3(){  
@@ -4140,6 +4141,8 @@ n1$print("chart3")
         
           
         
+
+        
         
         
       
@@ -4159,9 +4162,6 @@ n1$print("chart3")
 See the interactivity that comes at zero cost! 
 
 - - -
-
----
-
 #### [xCharts](https://github.com/tenXer/xcharts/)
 
 xCharts is a slick looking charting library using d3js, made by TenXer. Let's see it.
@@ -4317,9 +4317,6 @@ x1$print("chart4")
 There is your xChart.
 
 - - -
-
----
-
 #### [HighCharts](http://www.highcharts.com/)
 
 
@@ -5579,9 +5576,6 @@ h1$print("chart5")
 
 
 - - - 
-
----
-
 #### [Leaflet](http://leafletjs.com/)
 
 
@@ -5652,9 +5646,6 @@ L
 
 
 - - -
-
----
-
 #### [Rickshaw](https://github.com/shutterstock/rickshaw)
 
 
@@ -5671,9 +5662,8 @@ p4$print("chart6")
 
 
 <div class='chart_container'>
- <div id='chart6' class='rChart rickshaw'></div>
   <div id='yAxischart6' class='yAxis'></div>
-  <!-- <div id='xAxischart6' class='xAxis'></div> -->
+  <div id='chart6' class='rChart rickshaw'></div>
   <div id='legendchart6' class='legend'></div>
   <div id='sliderchart6' class='slider'></div>
 </div>
@@ -5970,15 +5960,13 @@ var sliderchart6 = new Rickshaw.Graph.RangeSlider({
 </script> 
 
 
-
-- - -
-
 ---
-
 ### Share
 
 rCharts allows you to share your visualization in multiple ways, as a standalone page, embedded in a shiny application, or in a tutorial/blog post.
 
+
+- - -
 #### Standalone
 
 You can publish your visualization as a standalone html page using the `publish` method. Here is an example. Currently, you can publish your chart as a `gist` or to `rpubs`.
@@ -5992,6 +5980,7 @@ r1$publish('Scatterplot', host = 'gist')
 r1$publish('Scatterplot', host = 'rpubs')
 ```
 
+- - -
 #### Shiny Application
 
 rCharts is easy to embed into a Shiny application using the utility functions `renderChart` and `showOutput`. Here is an example of an [rCharts Shiny App](http://glimmer.rstudio.com/ramnathv/rChartApp/).
@@ -6029,7 +6018,7 @@ shinyUI(pageWithSidebar(
   )
 ))
 ```
-
+- - -
 #### Blog Post
 
 rCharts can also be embedded into an Rmd document using `knit2html` or in a blog post using `slidify`. Here are a few examples of tutorials written using `rCharts` and `slidify`.
@@ -6037,6 +6026,7 @@ rCharts can also be embedded into an Rmd document using `knit2html` or in a blog
 1. [Parallel Coordinate Plots](http://ramnathv.github.io/rChartsParCoords/)
 2. [NY Times Graphics Tutorial](http://ramnathv.github.io/rChartsNYT/)
 
+---
 ## More
 
 ### Credits
