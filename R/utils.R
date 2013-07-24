@@ -7,6 +7,105 @@ open_notebook <- function(rmdFile = NULL){
   shiny::runApp(app)
 }
 
+open_notebook_list <- function (rmdFile = NULL) {
+  require(shiny)
+  
+  #if no rmd is provided, use example.Rmd in rCharts package
+  if (is.null(rmdFile)) {
+    rmdFile <- system.file("/apps/notebook/www/example.Rmd",package="rCharts")
+  }
+  
+  #libraries to include from rCharts
+  #include all libraries, but might want to parameterize
+  libs = list.dirs(system.file("libraries",package="rCharts"),recursive=FALSE)
+  foo <- function(libs){
+    require(rCharts)
+    add_rCharts(libs)
+    tagList(lapply(libs, get_rCharts_assets))
+  }
+  
+  options(device.ask.default = FALSE)
+  allow_knit = TRUE
+  
+  getHead <- function() {
+    addResourcePath("assets",system.file("/apps/notebook/www/assets",package="rCharts"))
+    tagList(
+      singleton(
+        tags$head(
+          tags$title('An R Notebook in Shiny'),
+          # tags$script(src = 'http://ace.ajax.org/build/src-min-noconflict/ace.js',
+          #  type = 'text/javascript', charset = 'utf-8'),
+          tags$script(src='assets/ace/js/ace.js', type = 'text/javascript', charset = 'utf-8'),
+          tags$script(src='assets/app.js', type = 'text/javascript', charset = 'utf-8'),
+          tags$link(rel = 'stylesheet', type = 'text/css', href = 'assets/ace-shiny.css'),
+          tags$link(rel = 'stylesheet', type = 'text/css', href = 'assets/styles.css'),
+          tags$script(src = 'assets/highlight.pack.js', type = 'text/javascript'),
+          tags$script('hljs.initHighlightingOnLoad();'),
+          tags$link(rel = 'stylesheet', type = 'text/css', href = 'assets/tomorrow.css'),
+          tags$script(src = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML', type = 'text/javascript'),
+          foo(libs)
+        )
+      )
+    )
+  }
+  
+  app <- list(
+    ui = bootstrapPage(
+      getHead(),
+      tags$body(
+        includeHTML(system.file("/apps/notebook/www/header.html",package="rCharts")),
+        tags$section(id = "main",
+                     div(id = 'notebook', title = 'Compile notebook: F4\nInsert chunk: Ctrl+Alt+I',
+                         paste(readLines(rmdFile), collapse = '\n')),
+                     # uiOutput('notebook'),
+                     tags$textarea(id = 'nbSrc', style = 'display: none;'),
+                     div(id = 'nbOut', class='shiny-html-output')
+        )
+      ),
+      tags$script(src = 'assets/ace-shiny.js', type = 'text/javascript')
+    ),
+    server = function(input, output) {
+      output$nbOut2 = reactive({
+        src = input$nbSrc
+        chart <- source(src, local = TRUE)$value
+        paste(chart$render(), collapse = '\n')
+      })
+      
+      output$downloadRmd <- downloadHandler(
+        filename = 'myapp.Rmd',
+        content = function(file){
+          cat(input$nbSrc, file = file)
+        }
+      )
+      
+      output$nbOut = reactive({
+        src = input$nbSrc
+        if (input$modevariable == "R"){
+          src = paste0(c(
+            "```{r echo = F, results = 'asis', message = F, warning = F, comment = NA}", 
+            input$nbSrc, 
+            "\n```", collapse = "\n")
+          )
+        }
+        if (allow_knit == TRUE){
+          library(knitr)
+          figdir = tempdir(); on.exit(unlink(figdir))
+          opts_knit$set(progress = FALSE, fig.path = figdir)
+          if (length(src) == 0L || src == '')
+            return('Nothing to show yet...')
+          on.exit(unlink('figure/', recursive = TRUE)) # do not need the figure dir
+          src = paste(c(readLines(system.file("/apps/notebook/www/highlight.html",package="rCharts")), src), collapse = '\n')
+          paste(try(knit2html(text = src, fragment.only = TRUE)))
+        } else {
+          paste(c(readLines(system.file("/apps/notebook/www/example.html",package="rCharts")), readLines(system.file("/apps/notebook/www/highlight.html",package="rCharts"))),
+                collapse = '\n')
+        }
+      })
+    }
+  )
+  shiny::runApp(app)
+}
+
 add_rCharts <- function(libs){
   LIBS <- lapply(libs, get_lib)
   invisible(lapply(LIBS, function(LIB){
