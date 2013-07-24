@@ -43,7 +43,7 @@ open_notebook_list <- function (rmdFile = NULL) {
           tags$script('hljs.initHighlightingOnLoad();'),
           tags$link(rel = 'stylesheet', type = 'text/css', href = 'assets/tomorrow.css'),
           tags$script(src = 'https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML', type = 'text/javascript'),
-          foo(libs)
+          suppressWarnings(foo(libs))
         )
       )
     )
