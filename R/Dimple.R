@@ -35,7 +35,9 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     params <<- modifyList(params, getLayer(...))
   },
   getPayload = function(chartId){
-    data = toJSONArray(params$data)
+    l = plyr::alply(df, 1, as.list)
+    names(l) = NULL
+    data = rjson::toJSON(l)
     #there is potential to  chain the entire thing
     #making much cleaner
     #need to explore this
