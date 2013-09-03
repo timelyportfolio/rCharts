@@ -14,10 +14,22 @@
           .entries(data);
       }
       
+      //loop through to give an expected x and y
+      //then give the type and yAxis hopefully provided by R
+      data.forEach(function(variables) {
+		    variables.values.forEach(function(values){
+			    values.x = values[opts.x];
+			    values.y = values[opts.y];
+		    });
+        variables.type = opts.multi[variables.key].type;
+        variables.yAxis = opts.multi[variables.key].yAxis;
+	    });
+    
+      
       nv.addGraph(function() {
         var chart = nv.models[opts.type]()
-          .x(function(d) { return d[opts.x] })
-          .y(function(d) { return d[opts.y] })
+          //.x(function(d) { return d[opts.x] })
+          //.y(function(d) { return d[opts.y] })
           .width(opts.width)
           .height(opts.height)
          

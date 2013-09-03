@@ -53,3 +53,37 @@ p7
 dat <- data.frame(t=rep(0:23,each=4),var=rep(LETTERS[1:4],4),val=round(runif(4*24,0,50)))
 p8 <- nPlot(val ~ t, group =  'var', data = dat, type = 'stackedAreaChart', id = 'chart')
 p8
+
+
+## {title: InteractiveGuidline(Multi-Tooltips) on Line}
+p9 <- nPlot(value ~ date, group = 'variable', data = ecm, type = 'lineChart')
+p9$xAxis( tickFormat="#!function(d) {return d3.time.format('%b %Y')(new Date( d * 86400000 ));}!#" )
+#try new interactive guidelines feature
+p9$chart(useInteractiveGuideline=TRUE)
+p9
+
+
+## {title: InteractiveGuidline(Multi-Tooltips) on Stack}
+p10 <- p8
+p10$chart(useInteractiveGuideline=TRUE)
+p10
+
+## {title: showDistX and showDistY}
+p11 <- p1
+p11$chart(showDistX = TRUE, showDistY = TRUE)
+p11
+
+## {title: multiChart}
+p12 <- p9
+#get rid of chart options from p9
+p12$set(chart = NULL)
+p12$set(type = "multiChart")
+p12$params$multi = list(
+  uempmed = list(type="area",yAxis=1),
+  psavert = list(type="line",yAxis=2)
+)
+p12$setTemplate(script = system.file(
+  "/libraries/nvd3/layouts/multiChart.html",
+  package = "rCharts"
+))
+p12
