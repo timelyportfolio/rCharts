@@ -43,6 +43,12 @@ toJSONArray2 <- function(obj, json = TRUE, names = TRUE, ...){
   }
 }
 
+toJSONArray3 <- function(df, nonames = TRUE){
+  l = plyr::alply(df, 1, as.list)
+  if(nonames){ names(l) = NULL }
+  data = rjson::toJSON(l)
+}
+
 #' Converts an R list to a sequence of chained functions acting on a specified object.
 #' 
 #' @author Ramnath Vaidyanathan
