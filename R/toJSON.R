@@ -10,7 +10,7 @@
 #' \dontrun{
 #' toJSONArray(head(iris))
 #' }
-toJSONArray <- function(obj, json = TRUE, nonames = TRUE){
+toJSONArrayOld <- function(obj, json = TRUE, nonames = TRUE){
   list2keyval <- function(l){
     keys = names(l)
     lapply(keys, function(key){
@@ -43,10 +43,14 @@ toJSONArray2 <- function(obj, json = TRUE, names = TRUE, ...){
   }
 }
 
-toJSONArray3 <- function(df, nonames = TRUE){
+toJSONArray <- function(df, nonames = TRUE, json =T){
   l = plyr::alply(df, 1, as.list)
   if(nonames){ names(l) = NULL }
-  data = rjson::toJSON(l)
+  if (json){
+    rjson::toJSON(l)
+  } else {
+    l
+  }
 }
 
 #' Converts an R list to a sequence of chained functions acting on a specified object.

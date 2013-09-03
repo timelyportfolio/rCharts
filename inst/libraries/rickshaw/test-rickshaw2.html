@@ -1,0 +1,263 @@
+<!doctype HTML>
+<html>
+  <head>
+    <link rel='stylesheet' href='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/css/rickshaw.min.css'>
+    <link rel='stylesheet' href='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/css/jquery-ui.css'>
+    
+    <script src='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/js/d3.v2.min.js' type='text/javascript'></script>
+    <script src='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/js/rickshaw.min.js' type='text/javascript'></script>
+    <script src='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/js/jquery.min.js' type='text/javascript'></script>
+    <script src='C:/Users/Kent.TLEAVELL_NT/Dropbox/development/r/rCharts/inst/libraries/rickshaw/js/jquery-ui.min.js' type='text/javascript'></script>
+    
+    <style>
+    .chart_container {
+        position: relative;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .rChart {
+        display: inline-block;
+        margin-left: 40px;
+    }
+   .yAxis {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+   }
+   .legend {
+        position: absolute;
+        top: 0;
+        right: -160px;
+        vertical-align: top;
+    }
+    .slider {
+      margin-left: 40px;
+      margin-top: 12px;
+    }
+    </style>
+    
+  </head>
+  <body>
+    <div class='chart_container'>
+      <div id='yAxischart1a3c3c4a4c78' class='yAxis'></div>
+      <div id='chart1a3c3c4a4c78' class='rChart rickshaw'></div>
+      <div id='xAxischart1a3c3c4a4c78' class='xAxis'></div>
+      <div id='legendchart1a3c3c4a4c78' class='legend'></div>
+      <div id='sliderchart1a3c3c4a4c78' class='slider'></div>
+    </div>
+    
+    <script type='text/javascript'> 
+  var palette = new Rickshaw.Color.Palette({ scheme: "colorwheel" });
+  var chartParams = {
+ "dom": "chart1a3c3c4a4c78",
+"width":            540,
+"height":            240,
+"scheme": "colorwheel",
+"colors": "steelblue",
+"series": [
+ {
+ "data": [
+ {
+ "x":    -5680195200,
+"y":       3.929214 
+},
+{
+ "x":    -5364662400,
+"y":       5.308483 
+},
+{
+ "x":    -5049129600,
+"y":       7.239881 
+},
+{
+ "x":    -4733596800,
+"y":       9.638453 
+},
+{
+ "x":    -4417977600,
+"y":      12.860702 
+},
+{
+ "x":    -4102444800,
+"y":      17.063353 
+},
+{
+ "x":    -3786825600,
+"y":      23.191876 
+},
+{
+ "x":    -3471292800,
+"y":      31.443321 
+},
+{
+ "x":    -3155673600,
+"y":      38.558371 
+},
+{
+ "x":    -2840140800,
+"y":      50.189209 
+},
+{
+ "x":    -2524521600,
+"y":      62.979766 
+},
+{
+ "x":    -2208988800,
+"y":      76.212168 
+},
+{
+ "x":    -1893456000,
+"y":      92.228496 
+},
+{
+ "x":    -1577923200,
+"y":     106.021537 
+},
+{
+ "x":    -1262304000,
+"y":     123.202624 
+},
+{
+ "x":     -946771200,
+"y":     132.164569 
+},
+{
+ "x":     -631152000,
+"y":     151.325798 
+},
+{
+ "x":     -315619200,
+"y":     179.323175 
+},
+{
+ "x":              0,
+"y":     203.302031 
+},
+{
+ "x":      315532800,
+"y":     226.542199 
+},
+{
+ "x":      631152000,
+"y":     248.709873 
+},
+{
+ "x":      946684800,
+"y":     281.421906 
+} 
+],
+"name": "population",
+"info": {
+ "-5680195200": [
+    -5680195200 
+],
+"-5364662400": [
+    -5364662400 
+],
+"-5049129600": [
+    -5049129600 
+],
+"-4733596800": [
+    -4733596800 
+],
+"-4417977600": [
+    -4417977600 
+],
+"-4102444800": [
+    -4102444800 
+],
+"-3786825600": [
+    -3786825600 
+],
+"-3471292800": [
+    -3471292800 
+],
+"-3155673600": [
+    -3155673600 
+],
+"-2840140800": [
+    -2840140800 
+],
+"-2524521600": [
+    -2524521600 
+],
+"-2208988800": [
+    -2208988800 
+],
+"-1893456000": [
+    -1893456000 
+],
+"-1577923200": [
+    -1577923200 
+],
+"-1262304000": [
+    -1262304000 
+],
+"-946771200": [
+     -946771200 
+],
+"-631152000": [
+     -631152000 
+],
+"-315619200": [
+     -315619200 
+],
+"0": [
+              0 
+],
+"315532800": [
+      315532800 
+],
+"631152000": [
+      631152000 
+],
+"946684800": [
+      946684800 
+] 
+},
+"color": "steelblue" 
+} 
+],
+"renderer": "area",
+"id": "chart1a3c3c4a4c78" 
+}
+  chartParams.element = document.querySelector('#chart1a3c3c4a4c78')
+  
+  var graphchart1a3c3c4a4c78 = new Rickshaw.Graph(chartParams);
+  
+  graphchart1a3c3c4a4c78.render();
+  
+  var xAxischart1a3c3c4a4c78 = new Rickshaw.Graph.Axis.Time({
+ "graph":  graphchart1a3c3c4a4c78  
+})
+var yAxischart1a3c3c4a4c78 = new Rickshaw.Graph.Axis.Y({
+ "orientation": "right",
+"graph":  graphchart1a3c3c4a4c78 ,
+"element":  document.getElementById('yAxischart1a3c3c4a4c78') ,
+"tickFormat":  Rickshaw.Fixtures.Number.formatKMBT  
+})
+graphchart1a3c3c4a4c78.render()
+var legendchart1a3c3c4a4c78 = new Rickshaw.Graph.Legend({
+ "graph":  graphchart1a3c3c4a4c78 ,
+"element":  document.getElementById('legendchart1a3c3c4a4c78')  
+})
+var shelvingchart1a3c3c4a4c78 = new Rickshaw.Graph.Behavior.Series.Toggle({
+ "graph":  graphchart1a3c3c4a4c78 ,
+"legend":  legendchart1a3c3c4a4c78  
+})
+var hoverDetailchart1a3c3c4a4c78 = new Rickshaw.Graph.HoverDetail({
+ "graph":  graphchart1a3c3c4a4c78  
+})
+var highlightchart1a3c3c4a4c78 = new Rickshaw.Graph.Behavior.Series.Highlight({
+ "graph":  graphchart1a3c3c4a4c78 ,
+"legend":  legendchart1a3c3c4a4c78  
+})
+
+  
+  graphchart1a3c3c4a4c78.render();
+  
+</script> 
+    
+  </body>
+</html>
