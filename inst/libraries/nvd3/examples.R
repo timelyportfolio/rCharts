@@ -74,10 +74,7 @@ p11$chart(showDistX = TRUE, showDistY = TRUE)
 p11
 
 ## {title: multiChart}
-p12 <- p9
-#get rid of chart options from p9
-p12$set(chart = NULL)
-p12$set(type = "multiChart")
+p12 <- nPlot(value ~ date, group = 'variable', data = ecm, type = 'multiChart')
 p12$params$multi = list(
   uempmed = list(type="area",yAxis=1),
   psavert = list(type="line",yAxis=2)
