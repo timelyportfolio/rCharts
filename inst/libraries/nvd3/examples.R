@@ -93,3 +93,20 @@ p13$templates$script = system.file(
   package = "rCharts"
 )
 p13
+
+hair_eye = as.data.frame(HairEyeColor)
+p14 <- nPlot(Freq ~ Hair, group = 'Sex', data = hair_eye, type = 'multiBarChart')
+p14$params$facet="Eye"
+p14$templates$script = system.file(
+  "/libraries/nvd3/layouts/nvd3FacetPlot.html",
+  package = "rCharts"
+)
+p14
+
+p15 <- nPlot(Freq ~ Hair, group = 'Eye', data = hair_eye, type = 'multiBarChart')
+p15$params$facet="Sex"
+p15$templates$script = system.file(
+  "/libraries/nvd3/layouts/nvd3FacetPlot.html",
+  package = "rCharts"
+)
+p15
