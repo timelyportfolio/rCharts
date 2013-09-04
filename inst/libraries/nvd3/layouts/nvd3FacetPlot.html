@@ -1,4 +1,3 @@
-<div id='{{chartId}}' class='nvd3Plot'></div>
 <script type='text/javascript'>
     draw{{chartId}}()
     setupChart = function(data, selector){
@@ -12,7 +11,7 @@
     
     
     function draw{{chartId}}(){  
-      var opts = {{{ myparams }}},
+      var opts = {{{ opts }}},
         data = {{{ data }}}
         
       var data = d3.nest()
@@ -24,6 +23,7 @@
         .data(data).enter()
         .append('div').attr('class', 'facets')
         .append('svg')
+          .attr("height", opts.height/d3.keys(data).length);
         
       facets.each(function(d, i){
          var data = d3.nest()
@@ -37,7 +37,7 @@
              .x(function(d) { return d[opts.x] })
              .y(function(d) { return d[opts.y] })
              .width(opts.width)
-             .height(opts.height)
+             .height(opts.height / facets[0].length)
          
            {{{ chart }}}
           
@@ -45,7 +45,7 @@
         
            {{{ yAxis }}}
       
-         d3.select(this)
+         d3.select(facets[0][i])
           .datum([d])
           .transition().duration(500)
           .call(chart);
