@@ -84,3 +84,12 @@ p12$setTemplate(script = system.file(
   package = "rCharts"
 ))
 p12
+
+## {title: Facets}
+p13 <- nPlot(mpg ~ wt, data = mtcars, group = "gear", type = "scatterChart")
+p13$params$facet = "cyl"
+p13$templates$script = system.file(
+  "/libraries/nvd3/layouts/nvd3FacetPlot.html",
+  package = "rCharts"
+)
+p13
