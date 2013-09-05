@@ -110,3 +110,9 @@ p15$templates$script = system.file(
   package = "rCharts"
 )
 p15
+
+
+## {title: Sparklines}
+p16 <- nPlot(uempmed ~ date, data = economics, type = 'sparklinePlus',height=100,width=500)
+p16$chart(xTickFormat="#!function(d) {return d3.time.format('%b %Y')(new Date( d * 86400000 ));}!#")
+p16

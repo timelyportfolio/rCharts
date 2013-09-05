@@ -6,7 +6,7 @@
       var opts = {{{ opts }}},
         data = {{{ data }}}
   
-      if(!(opts.type==="pieChart")) {
+      if(!(opts.type==="pieChart" || opts.type==="sparklinePlus")) {
         var data = d3.nest()
           .key(function(d){
             return opts.group === undefined ? 'main' : d[opts.group]
