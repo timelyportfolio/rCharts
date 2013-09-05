@@ -10,7 +10,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     params <<- c(params, list(
       chart = list(), xAxis = list(type="addCategoryAxis", showPercent = FALSE),
       yAxis = list(type="addMeasureAxis", showPercent = FALSE),
-      zAxis = list(), colorAxis = list(), legend = list()
+      zAxis = list(), colorAxis = list(), legend = list(), facet = list()
     ))
   },
   chart = function(..., replace = F){
@@ -30,6 +30,9 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   },
   legend = function(...){
     .self$set(legend = list(...))
+  },
+  facet = function(...){
+    .self$set(facet = list(...))
   },
   getChartParams = function(...){
     params <<- modifyList(params, getLayer(...))

@@ -12,6 +12,8 @@
 
   //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
   var myChart = new dimple.chart(svg, data);
+  var subCharts = [];  
+  
   if (opts.bounds) {
     myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
   }
@@ -32,7 +34,7 @@
       // Hide this series
       myChart.assignColor("Hide", "#fff", "#fff", 0);
       // The bar gap here will define the gaps between the charts
-      s.barGap = 0.2;
+      s.barGap = 0.1;
       // Remove the click event from the master chart
       s.addEventHandler("mouseover", function (e) {});
 
@@ -57,6 +59,7 @@
 
         // Draw a new chart which will go in the current shape
         var subChart = new dimple.chart(svg, filteredData);
+
         
         // Get the shape from the main chart on which this chart is based
         var shape = d3.select(this);
@@ -128,19 +131,19 @@
   if(!(opts.facet.y==="Dummy")) seriesVariables.push(opts.facet.y)
   if(opts.hasOwnProperty("groups")) {
     seriesVariables.push(opts.groups)
-    var s = subChart.addSeries( seriesVariables, dimple.plot[opts.type] );
+    var subs = subChart.addSeries( seriesVariables, dimple.plot[opts.type] );
     //series offers an aggregate method that we will also need to check if available
     //options available are avg, count, max, min, sum
     if (!(typeof(opts.aggregate) === 'undefined')) {
-      s.aggregate = eval(opts.aggregate);
+      subs.aggregate = eval(opts.aggregate);
     }
     if (!(typeof(opts.lineWeight) === 'undefined')) {
-      s.lineWeight = eval(opts.lineWeight);
+      subs.lineWeight = eval(opts.lineWeight);
     }
     if (!(typeof(opts.barGap) === 'undefined')) {
-      s.barGap = eval(opts.barGap);
+      subs.barGap = eval(opts.barGap);
     }    
-  } else var s = myChart.addSeries( seriesVariables, dimple.plot[opts.type] );
+  } else var subs = myChart.addSeries( seriesVariables, dimple.plot[opts.type] );
   //unsure if this is best but if legend is provided (not empty) then evaluate
   if(d3.keys(legend).length > 0) {
     var l =myChart.addLegend();
@@ -153,6 +156,28 @@
     subChart.setStoryboard(opts.storyboard);
   };
   subChart.draw();
+  subCharts.push(subChart);
 })
+//evaluate which do not fall in column 1 or row 1 to remove
+var xpos = d3.extent(subCharts,function(d){return d.x});
+var ypos = d3.extent(subCharts,function(d){return d.y});
+
+//get rid of all y for those not in column 1
+//can easily customize this to only remove bits and pieces
+subCharts.filter(function(d){
+  return d.x!=xpos[0];
+}).forEach(function(d){
+  d.axes[1].shapes.remove();
+  d.axes[1].titleShape.remove();
+});
+//now x for those not in row 1
+subCharts.filter(function(d){
+  return d.y!=ypos[1];
+}).forEach(function(d){
+  d.axes[0].shapes.remove();
+  d.axes[0].titleShape.remove();
+});
+
+
 })();
 </script>
