@@ -7,7 +7,7 @@ dPlot <- dimplePlot <- function(x, data, ...){
 Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   initialize = function(){
     callSuper(); 
-    params <<- c(params, list(
+    params <<- c(params, list(controls = list(),
       chart = list(), xAxis = list(type="addCategoryAxis", showPercent = FALSE),
       yAxis = list(type="addMeasureAxis", showPercent = FALSE),
       zAxis = list(), colorAxis = list(), legend = list(), facet = list()
@@ -47,15 +47,18 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     #need to explore this
     #as of now thought chart is not being used
     chart = toChain(params$chart, 'myChart')
-    #cannot eliminate so changed toChain to toJSON
+       #cannot eliminate so changed toChain to toJSON
     #but need to revert back to toChain for the axes
     xAxis = toJSON(params$xAxis) #toChain(params$xAxis, 'chart.xAxis')
     yAxis = toJSON(params$yAxis) #toChain(params$yAxis, 'chart.yAxis')
     zAxis = toJSON(params$zAxis)
     colorAxis = toJSON(params$colorAxis)
+    controls_json = toJSON(params$controls)
+    controls = setNames(params$controls, NULL)     
     legend = toJSON(params$legend)
-    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'yAxis', 'zAxis', 'colorAxis', 'legend'))])
-    list(opts = opts, xAxis = xAxis, yAxis = yAxis, zAxis = zAxis, colorAxis = colorAxis, legend = legend, data = data, 
-         chart = chart, chartId = chartId)
+    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'yAxis', 'zAxis', 'colorAxis', 'legend','controls'))])
+    list(opts = opts, xAxis = xAxis, yAxis = yAxis, zAxis = zAxis, colorAxis = colorAxis, legend = legend, controls = controls, 
+         controls_json = controls_json, data = data, 
+         chart = chart, chartId = chartId, CODE = srccode)
   }
 ))
