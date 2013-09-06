@@ -116,3 +116,34 @@ p15
 p16 <- nPlot(uempmed ~ date, data = economics, type = 'sparklinePlus',height=100,width=500)
 p16$chart(xTickFormat="#!function(d) {return d3.time.format('%b %Y')(new Date( d * 86400000 ));}!#")
 p16
+## semi replicate sparkline with a full nvd3 model by setting short height and turning off lots of things
+p17 <- nPlot(
+  x = "date",
+  y = "volume",
+  data = spy.df,
+  type = "multiBarChart",
+  height = 200)
+p17$chart(showControls = FALSE, showLegend = FALSE, showXAxis = FALSE, showYAxis = FALSE) 
+p17$xAxis(tickFormat = 
+  "#!function(d) {return d3.time.format('%Y-%m-%d')(new Date(d * 24 * 60 * 60 * 1000));}!#"
+)
+p17
+
+
+## {title: ohlcBar}
+## ohlcBar not fully implemented on nvd3 side, so no axes or interactive controls
+require(quantmod)
+
+spy <- getSymbols("SPY",auto.assign=FALSE,from="2013-01-01")
+colnames(spy) <- c("open","high","low","close","volume","adjusted")
+
+spy.df <- data.frame(index(spy),spy)
+colnames(spy.df)[1] <- "date"
+
+p18 <- nPlot(
+  x = "date",
+  y = "close",
+  data = spy.df,
+  type = "ohlcBar"
+)
+p18
