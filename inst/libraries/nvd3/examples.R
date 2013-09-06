@@ -132,6 +132,7 @@ p17
 
 ## {title: ohlcBar}
 ## ohlcBar not fully implemented on nvd3 side, so no axes or interactive controls
+## note do not melt if using ohlcBar
 require(quantmod)
 
 spy <- getSymbols("SPY",auto.assign=FALSE,from="2013-01-01")
