@@ -15,7 +15,7 @@
         data = {{{ data }}}
         
     var data = d3.nest()
-        .key(function(d){ return d[opts.facet]} )    
+        .key(function(d){ return d[opts.facet]} ).sortKeys(d3.ascending)   
         .entries(data)
         
       facets = d3.select("#" + opts.id)
@@ -27,7 +27,7 @@
           
       facets[0].forEach(function(d,i){
         d3.select(d3.select(d).node().parentNode).insert("h3","svg")
-          .text(d3.select(d).datum().key)
+          .text(opts.facet + " : " + d3.select(d).datum().key)
       })
     
       facets.each(function(d, i){
