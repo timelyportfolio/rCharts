@@ -28,7 +28,7 @@ var data = d3.nest()
       facets.each(function(d, i){
          var facetdata = d3.nest()
           .key(function(d){
-            return opts.group === undefined ? 'main' : d[opts.group]
+            return opts.group === undefined ? d[opts.facet] : d[opts.group]
           })
           .key(function(d){
             return d[opts.x]
