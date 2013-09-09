@@ -1,20 +1,20 @@
 <script type='text/javascript'>
     draw{{chartId}}()
-    setupChart = function(data, selector){
+/*    setupChart = function(data, selector){
       d3.select(selector)
         .selectAll("div")
         .data(data).enter()
         .append('div').attr('class', 'preview')
         .append('svg');
     }
-
+*/
     
     
     function draw{{chartId}}(){  
       var opts = {{{ opts }}},
         data = {{{ data }}}
         
-var data = d3.nest()
+    var data = d3.nest()
         .key(function(d){ return d[opts.facet]} )    
         .entries(data)
         
@@ -24,7 +24,12 @@ var data = d3.nest()
         .append('div').attr('class', 'facets')
         .append('svg')
           .attr("height", opts.height/d3.keys(data).length);
-        
+          
+      facets[0].forEach(function(d,i){
+        d3.select(d3.select(d).node().parentNode).insert("h3","svg")
+          .text(d3.select(d).datum().key)
+      })
+    
       facets.each(function(d, i){
          var facetdata = d3.nest()
           .key(function(d){
