@@ -26,7 +26,7 @@ var data = d3.nest()
           .attr("height", opts.height/d3.keys(data).length);
         
       facets.each(function(d, i){
-         var data = d3.nest()
+         var facetdata = d3.nest()
           .key(function(d){
             return opts.group === undefined ? 'main' : d[opts.group]
           })
@@ -55,10 +55,12 @@ var data = d3.nest()
           
            
         
-           
+         if(opts.type==="pieChart" || opts.type==="sparklinePlus") {
+           facetdata = facetdata[0].values;
+         };
       
          d3.select(facets[0][i])
-          .datum(d3.values(data))
+          .datum(facetdata)
           .transition().duration(500)
           .call(chart);
 
