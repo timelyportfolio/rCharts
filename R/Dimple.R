@@ -10,7 +10,8 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     params <<- c(params, list(controls = list(),
       chart = list(), xAxis = list(type="addCategoryAxis", showPercent = FALSE),
       yAxis = list(type="addMeasureAxis", showPercent = FALSE),
-      zAxis = list(), colorAxis = list(), legend = list(), facet = list()
+      zAxis = list(), colorAxis = list(), defaultColors = list(),
+      legend = list(), facet = list()
     ))
   },
   chart = function(..., replace = F){
@@ -25,6 +26,9 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   zAxis = function(..., replace = F){
     params$zAxis <<- setSpec(params$zAxis, ..., replace = replace)
   },
+  defaultColors = function(..., replace = F){
+    params$defaultColors <<- setSpec(params$defaultColors, ..., replace = replace)
+  },    
   colorAxis = function(...){
     .self$set(colorAxis = list(...))
   },
@@ -53,11 +57,14 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     yAxis = toJSON(params$yAxis) #toChain(params$yAxis, 'chart.yAxis')
     zAxis = toJSON(params$zAxis)
     colorAxis = toJSON(params$colorAxis)
+    defaultColors = toJSON2(params$defaultColors)
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)     
     legend = toJSON(params$legend)
-    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'yAxis', 'zAxis', 'colorAxis', 'legend','controls'))])
-    list(opts = opts, xAxis = xAxis, yAxis = yAxis, zAxis = zAxis, colorAxis = colorAxis, legend = legend, controls = controls, 
+    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'yAxis', 'zAxis', 'colorAxis', 'defaultColors', 'legend','controls'))])
+    list(opts = opts, xAxis = xAxis, yAxis = yAxis, zAxis = zAxis,
+         colorAxis = colorAxis, defaultColors = defaultColors,
+         legend = legend, controls = controls, 
          controls_json = controls_json, data = data, 
          chart = chart, chartId = chartId, CODE = srccode)
   }

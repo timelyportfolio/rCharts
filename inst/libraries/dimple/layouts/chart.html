@@ -6,6 +6,7 @@
     yAxis = {{{ yAxis }}},
     zAxis = {{{ zAxis }}},
     colorAxis = {{{ colorAxis }}},
+    defaultColors = {{{ defaultColors }}},
     legend = {{{ legend }}};
   var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
 
@@ -63,6 +64,24 @@
   if(d3.keys(colorAxis).length > 0) {
     myChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
   }
+
+  //allow manipulation of default colors to use with dimple
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(defaultColors(n));
+      };
+      defaultColors = defaultColorsArray;
+    }
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = defaultColors;
+  }
   
   //here need think I need to evaluate group and if missing do null
   //as the first argument
@@ -92,6 +111,9 @@
   if(opts.storyboard) {
     myChart.setStoryboard(opts.storyboard);
   };
+
+
+
   myChart.draw();
 })();
 </script>
