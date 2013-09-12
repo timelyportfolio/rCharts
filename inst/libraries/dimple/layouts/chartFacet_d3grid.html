@@ -6,9 +6,27 @@
     yAxis = {{{ yAxis }}},
     zAxis = {{{ zAxis }}},
     colorAxis = {{{ colorAxis }}},
+    defaultColors = {{{ defaultColors }}},
     legend = {{{ legend }}};
     
   var subCharts = [];  
+  
+  //move this here for facet template since only occurs once
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(defaultColors(n));
+      };
+      defaultColors = defaultColorsArray;
+    }
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
+    })
+  } 
   
 
   //if facet not provided for x or y make Dummy variable
@@ -142,6 +160,12 @@ grid(tuples);
   if(d3.keys(colorAxis).length > 0) {
     subChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
   }
+  
+  //allow manipulation of default colors to use with dimple
+  if(defaultColors.length) {
+    //move transform of defaultColors to top
+    subChart.defaultColors = defaultColors;
+  }  
   
   //here need think I need to evaluate group and if missing do null
   //as the first argument
