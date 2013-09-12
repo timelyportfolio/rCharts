@@ -99,10 +99,10 @@ toChain2 <- function(x, obj){
 #a chain myChart[x] = x instead of myChart(x)
 toChain3 <- function(x, obj){
   config <- sapply(names(x), USE.NAMES = F, function(key){
-    sprintf("  .%s = %s", key, toJSON2(x[[key]]))
+    sprintf("  %s.%s = %s;", obj, key, toJSON2(x[[key]]))
   })
   if (length(config) != 0L){
-    paste(c(obj, config), collapse = '\n')
+    paste(config, collapse = '\n')
   } else {
     ""
   }
