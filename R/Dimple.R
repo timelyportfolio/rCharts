@@ -50,7 +50,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     #making much cleaner
     #need to explore this
     #as of now thought chart is not being used
-    chart = toChain(params$chart, 'myChart')
+    chart = toChain3(params$chart, 'myChart')
        #cannot eliminate so changed toChain to toJSON
     #but need to revert back to toChain for the axes
     xAxis = toJSON(params$xAxis) #toChain(params$xAxis, 'chart.xAxis')

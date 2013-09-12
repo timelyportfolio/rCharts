@@ -95,6 +95,19 @@ toChain2 <- function(x, obj){
   paste(c(obj, config), collapse = '\n')
 }
 
+#provide this variation of toChain for dimple that wants 
+#a chain myChart[x] = x instead of myChart(x)
+toChain3 <- function(x, obj){
+  config <- sapply(names(x), USE.NAMES = F, function(key){
+    sprintf("  .%s = %s", key, toJSON2(x[[key]]))
+  })
+  if (length(config) != 0L){
+    paste(c(obj, config), collapse = '\n')
+  } else {
+    ""
+  }
+}
+
 #' Convert a list to a GeoJSON compatible list.
 toGeoJSON = function(list_, lat = 'latitude', lon = 'longitude'){
   x = lapply(list_, function(l){
