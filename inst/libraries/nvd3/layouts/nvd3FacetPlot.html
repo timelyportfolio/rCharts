@@ -14,6 +14,38 @@
       var opts = {{{ opts }}},
         data = {{{ data }}}
         
+  var subCharts = [];  
+  
+
+  //if facet not provided for x or y make Dummy variable
+  opts.facet.x = opts.facet.x ? opts.facet.x : "Dummy"
+  opts.facet.y = opts.facet.y ? opts.facet.y : "Dummy"    
+  if(opts.facet.x === "Dummy" || opts.facet.y === "Dummy") {
+    data.forEach(function(d){
+      d.Dummy = 1;
+    })
+  }
+
+  var rows = d3.set(data.map(function(d){return d[opts.facet.y]})).values();
+  var nrow = rows.length;
+  var cols = d3.set(data.map(function(d){return d[opts.facet.x]})).values()
+  var ncol = cols.length;
+  
+  var tuples = d3.merge(rows.map(function(row,irow){return cols.map(function(col,icol){return {key:row + "~" + col, values: {"row":irow, "col":icol} }})}))
+    
+  var grid = d3.layout.grid()
+    .rows( nrow )
+    .cols( ncol )
+    .size([ opts.width, opts.height-100])
+    .bands();
+  
+  var svgGrid = d3.select("#" + opts.id).append("svg")
+    .attr("width", opts.width)
+    .attr("height", opts.height);
+   // .attr("transform", "translate(50,0)");
+
+  grid(tuples);        
+        
     var data = d3.nest()
         .key(function(d){ return d[opts.facet]} ).sortKeys(d3.ascending)   
         .entries(data)

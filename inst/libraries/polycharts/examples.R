@@ -10,6 +10,7 @@ p1$show(cdn = T)
 hair_eye = as.data.frame(HairEyeColor)
 p2 <- rPlot(Freq ~ Hair, color = 'Eye', data = hair_eye, type = 'bar')
 p2$facet(var = 'Eye', type = 'wrap', rows = 2)
+p2$guides( y = list(formatter = "#!function(d){return Number(d).toPrecision(5)}!#"))
 p2
 
 ## Example 3 Boxplot

@@ -190,7 +190,7 @@ grid(tuples);
   } else var subs = myChart.addSeries( seriesVariables, dimple.plot[opts.type] );
   //unsure if this is best but if legend is provided (not empty) then evaluate
   if(d3.keys(legend).length > 0) {
-    var l =myChart.addLegend();
+    var l = subChart.addLegend();
     d3.keys(legend).forEach(function(d){
       l[d] = legend[d];
     });
