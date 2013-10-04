@@ -49,6 +49,14 @@ toJSONarray <- function(dtf){
   str <- do.call(paste,c(objs,list(sep=",\n")))
   
   # Add [ ] and paste rows together
-  res <- paste('[\n ', paste("[\n",str,"\n]",collapse=',\n'), ' \n]',sep="")
+  res <- paste(
+    '[\n ',
+    paste("[\n",str,"\n]",collapse=',\n'),
+    ' \n]',
+    sep=""
+  )
   return(res)
 }
+
+
+#rjson::toJSON(list( labels = clnms ))
