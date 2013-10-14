@@ -14,6 +14,11 @@
       var opts = {{{ opts }}},
         data = {{{ data }}}
         
+      // lodash js to get in proper format assuming method #1 json
+      // records
+      data = _.map(_.unzip(data),function(d){return _.zipObject(d3.keys(data),d)});
+              
+        
   var subCharts = [];  
   
 
