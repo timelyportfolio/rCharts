@@ -10,7 +10,7 @@
 #' \dontrun{
 #' toJSONArray(head(iris))
 #' }
-toJSONArray <- function(obj, json = TRUE, nonames = TRUE){
+toJSONArrayOld <- function(obj, json = TRUE, nonames = TRUE){
   list2keyval <- function(l){
     keys = names(l)
     lapply(keys, function(key){
@@ -40,6 +40,16 @@ toJSONArray2 <- function(obj, json = TRUE, names = TRUE, ...){
   } else {
     names(value) <- NULL;
     return(value)
+  }
+}
+
+toJSONArray <- function(df, nonames = TRUE, json =T){
+  l = plyr::alply(df, 1, as.list)
+  if(nonames){ names(l) = NULL }
+  if (json){
+    rjson::toJSON(l)
+  } else {
+    l
   }
 }
 
@@ -83,6 +93,19 @@ toChain2 <- function(x, obj){
     sprintf("  .%s(%s)", key, toJSON2(x[[key]]))
   })
   paste(c(obj, config), collapse = '\n')
+}
+
+#provide this variation of toChain for dimple that wants 
+#a chain myChart[x] = x instead of myChart(x)
+toChain3 <- function(x, obj){
+  config <- sapply(names(x), USE.NAMES = F, function(key){
+    sprintf("  %s.%s = %s;", obj, key, toJSON2(x[[key]]))
+  })
+  if (length(config) != 0L){
+    paste(config, collapse = '\n')
+  } else {
+    ""
+  }
 }
 
 #' Convert a list to a GeoJSON compatible list.
