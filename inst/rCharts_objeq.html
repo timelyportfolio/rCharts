@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    {{# assets.css }}
+    <link rel='stylesheet' href='{{{ . }}}'>
+    {{/ assets.css }}
+    
+    {{# assets.jshead }}
+    <script src='{{{ . }}}' type='text/javascript'></script>
+    {{/ assets.jshead }}
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: {{params.width}}px;
+      height: {{params.height}}px;
+    }  
+    </style>
+    
+  <style type="text/css">
+    html,
+    body {
+      height: 100%;
+      /* The html and body elements cannot have any padding or margin. */
+    }
+
+    /* Wrapper for page content to push down footer */
+    #wrap {
+      min-height: 100%;
+      height: auto;
+      /* Negative indent footer by its height */
+      margin: 0 auto -40px;
+      /* Pad bottom by footer height */
+      padding: 0 0 40px;
+    }
+
+    /* Set the fixed height of the footer here */
+    #footer {
+      height: 40px;
+      background-color: #f5f5f5;
+    }    
+    
+    textarea {
+      font-family: Courier New, Courier, serif;
+      font-size: 16px;
+    }
+
+    .query, .source, .result {
+      height: 200px;
+    }
+    
+    #query, #source, #result {
+      height: 100%;
+      width: 100%;      
+    }
+    
+    #queries {
+      width: 100%;
+    }
+   
+  </style>    
+    
+  </head>
+  <body>
+      <div id="wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="source">
+            <h3>Source</h3>
+            <div class="sourceHolder">
+              <textarea id="source">
+
+              </textarea>
+            </div>
+          </div>
+        </div><!--col-md-->
+        <div class="col-md-3">
+          <div class="query">
+          <h3>Query</h3>
+          <div class="queryHolder"><textarea id="query"></textarea></div>
+          <label for="queries"></label>
+          <div class="queriesHolder">
+           <select id ="queries" onchange="chooseQuery();">
+              <option disabled="true">
+                Verbose Syntax Queries
+              </option>
+
+              <option selected>
+              WHERE age > 70
+              ORDER BY firstName
+              </option>
+
+              <option>
+              WHERE firstName == 'Ted' AND age > 70
+              </option>
+
+              <option>
+              ORDER BY age, firstName
+              SELECT lastName
+              </option>
+
+              <option>
+              WHERE lastName == 'Bradford'
+              ORDER BY firstName
+              SELECT { fullName: lastName + ', ' + firstName }
+              </option>
+
+              <option>
+              WHERE lastName IN ['Bradford', 'Rago', 'Mains']
+              ORDER BY lastName, firstName
+              </option>
+
+              <option>
+              SELECT [age, age*age, age/2]
+              </option>
+
+              <option disabled="true"></option>
+              <option disabled="true">
+                Terse Syntax Queries
+              </option>
+
+              <option>
+              age > 70
+              BY firstName
+              </option>
+
+              <option>
+              firstName == 'Ted' && age > 70
+              </option>
+
+              <option>
+              BY age, firstName -> lastName
+              </option>
+
+              <option>
+              lastName == 'Bradford'
+              BY firstName
+              -> { fullName: lastName + ', ' + firstName }
+              </option>
+
+              <option>
+              lastName IN ['Bradford', 'Rago', 'Mains']
+              BY lastName, firstName
+              </option>
+
+              <option>
+              -> [age, age*age, age/2]
+              </option>
+
+              <option disabled="true"></option>
+              <option disabled="true">
+                Regular Expression Queries
+              </option>
+
+              <option>
+              "^J" =~ firstName
+              </option>
+
+              <option>
+              "^J" =~ firstName
+              BY lastName
+              -> { firstName, lastName, age: age-1 }
+              </option>
+
+              <option disabled="true"></option>
+              <option disabled="true">
+                Aggregation Queries
+              </option>
+
+              <option>
+              WHERE age > 70
+              SELECT age
+              AGGREGATE avg, round
+              </option>
+
+              <option>
+              age > 50 -> age := sum
+              </option>
+
+              <option>
+              age -> age := max
+              </option>
+          </select>
+          </div>
+        </div>
+        </div><!--col-md-->
+        <div class="col-md-1">
+          <button id="run" style="position:relative;top: 80px;">Query</button>
+        </div><!--col-md-->
+        <div class="col-md-5">
+          <div class="result">
+            <h3>Result</h3>
+            <div class="resultHolder">
+              <textarea id="result" readonly="readonly"></textarea>
+            </div>
+          </div>
+        </div><!--col-md-->
+      </div><!--row-->
+      <div class="row">
+          {{# chartId }}
+            <{{container}} id='{{chartId}}' class='rChart {{ lib }}'></{{container}}>  
+          {{/ chartId }}
+      </div><!--row-->
+    </div><!--container-->
+  </div><!--wrap-->
+
+  {{{ script }}}
+
+  <div id="footer">
+    <div class="container">
+      objeq (JavaScript Query Language) -- @GitHub:
+      <a href="http://github.com/agilosoftware/objeq">
+        github.com/agilosoftware/objeq
+      </a>
+    </div><!--container-->
+  </div><!--footer-->
+
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  </body>
+</html>
