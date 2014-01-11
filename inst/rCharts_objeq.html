@@ -45,15 +45,10 @@
     
     textarea {
       font-family: Courier New, Courier, serif;
-      font-size: 16px;
+      font-size: 12px;
     }
 
-    .query, .source, .result {
-      height: 200px;
-    }
-    
     #query, #source, #result {
-      height: 100%;
       width: 100%;      
     }
     
@@ -68,142 +63,48 @@
       <div id="wrap">
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-3">
           <div class="source">
             <h3>Source</h3>
             <div class="sourceHolder">
-              <textarea id="source">
+              <textarea class="form-control" rows="8"  id="source">
 
               </textarea>
             </div>
           </div>
-        </div><!--col-md-->
-        <div class="col-md-3">
-          <div class="query">
-          <h3>Query</h3>
-          <div class="queryHolder"><textarea id="query"></textarea></div>
-          <label for="queries"></label>
-          <div class="queriesHolder">
-           <select id ="queries" onchange="chooseQuery();">
-              <option disabled="true">
-                Verbose Syntax Queries
-              </option>
-
-              <option selected>
-              WHERE age > 70
-              ORDER BY firstName
-              </option>
-
-              <option>
-              WHERE firstName == 'Ted' AND age > 70
-              </option>
-
-              <option>
-              ORDER BY age, firstName
-              SELECT lastName
-              </option>
-
-              <option>
-              WHERE lastName == 'Bradford'
-              ORDER BY firstName
-              SELECT { fullName: lastName + ', ' + firstName }
-              </option>
-
-              <option>
-              WHERE lastName IN ['Bradford', 'Rago', 'Mains']
-              ORDER BY lastName, firstName
-              </option>
-
-              <option>
-              SELECT [age, age*age, age/2]
-              </option>
-
-              <option disabled="true"></option>
-              <option disabled="true">
-                Terse Syntax Queries
-              </option>
-
-              <option>
-              age > 70
-              BY firstName
-              </option>
-
-              <option>
-              firstName == 'Ted' && age > 70
-              </option>
-
-              <option>
-              BY age, firstName -> lastName
-              </option>
-
-              <option>
-              lastName == 'Bradford'
-              BY firstName
-              -> { fullName: lastName + ', ' + firstName }
-              </option>
-
-              <option>
-              lastName IN ['Bradford', 'Rago', 'Mains']
-              BY lastName, firstName
-              </option>
-
-              <option>
-              -> [age, age*age, age/2]
-              </option>
-
-              <option disabled="true"></option>
-              <option disabled="true">
-                Regular Expression Queries
-              </option>
-
-              <option>
-              "^J" =~ firstName
-              </option>
-
-              <option>
-              "^J" =~ firstName
-              BY lastName
-              -> { firstName, lastName, age: age-1 }
-              </option>
-
-              <option disabled="true"></option>
-              <option disabled="true">
-                Aggregation Queries
-              </option>
-
-              <option>
-              WHERE age > 70
-              SELECT age
-              AGGREGATE avg, round
-              </option>
-
-              <option>
-              age > 50 -> age := sum
-              </option>
-
-              <option>
-              age -> age := max
-              </option>
-          </select>
-          </div>
-        </div>
-        </div><!--col-md-->
-        <div class="col-md-1">
-          <button id="run" style="position:relative;top: 80px;">Query</button>
-        </div><!--col-md-->
-        <div class="col-md-5">
+        </div><!--col-sm-->
+        <div class="col-sm-3">
+            <h3>Query</h3>
+            <div class="input-group">
+              <div class="queryHolder"><textarea class="form-control" rows="8"  id="query"></textarea>
+              <span class="input-group-addon"><button id="run" class="btn btn-default">Query</button></span>
+              </div>
+            </div>
+            <label for="queries"></label>
+            <div class="queriesHolder">
+              <select id ="queries" onchange="chooseQuery();">
+              </select>
+            </div>
+        </div><!--col-sm-->
+        <div class="col-sm-5">
           <div class="result">
             <h3>Result</h3>
             <div class="resultHolder">
-              <textarea id="result" readonly="readonly"></textarea>
+              <textarea class="form-control" rows="8"  id="result" readonly="readonly"></textarea>
             </div>
           </div>
-        </div><!--col-md-->
+        </div><!--col-sm-->
       </div><!--row-->
       <div class="row">
+        <div class="col-sm-3">
+          <h3>rCharts Config</h3>
+          <textarea class="form-control" rows=8 id="rChartsConfig"></textarea>
+        </div>
+        <div class="col-sm-9">
           {{# chartId }}
             <{{container}} id='{{chartId}}' class='rChart {{ lib }}'></{{container}}>  
           {{/ chartId }}
+        </div>
       </div><!--row-->
     </div><!--container-->
   </div><!--wrap-->
@@ -219,6 +120,5 @@
     </div><!--container-->
   </div><!--footer-->
 
-  <script type="text/javascript" src="js/bootstrap.js"></script>
   </body>
 </html>
