@@ -84,7 +84,10 @@
       <div class="row">
         <div class="col-sm-3">
           <h3>rCharts Config</h3>
-          <textarea class="form-control" rows=14 id="rChartsConfig"></textarea>
+          <div class="input-group" style="width:100%;">
+            <textarea class="form-control" rows=14 id="rChartsConfig"></textarea>
+            <button id="config" class="btn btn-default"style="position:absolute;bottom:10px;right:20px;">Config</button>                          
+          </div>
         </div>
         <div class="col-sm-9">
           {{# chartId }}
