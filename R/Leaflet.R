@@ -81,10 +81,11 @@ Leaflet = setRefClass('Leaflet', contains = 'rCharts', methods = list(
     params$legend <<- list(position = position, colors = colors, labels = labels)
   },
   getPayload = function(chartId){
-    skip = c('marker', 'circle', 'addons', 'geoJson', 'kml')
+    skip = c('circle', 'addons', 'geoJson', 'kml') #'marker', 
     geoJson = toJSON2(params$geoJson)
     kml = toJSON2(params$kml)
-    marker = paste(lapply(params$marker, toChain, obj =  'L'), collapse = '\n')
+    #marker = paste(lapply(params$marker, toChain, obj =  'L'), collapse = '\n')
+    marker = toJSON2(params$marker)
     # circle = paste(lapply(params$circle, toChain, obj =  'L'), collapse = '\n')
     circle = toChain(params$circle, obj = 'L')
     chartParams = toJSON(params[!(names(params) %in% skip)], digits = 13)
