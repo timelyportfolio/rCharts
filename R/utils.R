@@ -1,8 +1,35 @@
+## This app requires OpenCPU 1.0.1 or higher !!!! 
+##
+
+#' @export
+make_chart <- function(text){
+  writeLines(text, con="input.R")
+  chart = source('input.R', local = TRUE)$value
+  chart$set(width = 700)
+  chart$setTemplate(page = 'rChart2.html')
+  chart$save('output.html', cdn = TRUE)
+  invisible();
+}
+
+
+#' Copy directories
+#' 
+#' @keywords internal
+copy_dir_ <- function (from, to){
+  if (!(file.exists(to))) {
+    dir.create(to, recursive = TRUE)
+    message("Copying files to ", to, "...")
+    file.copy(list.files(from, full.names = T), to, recursive = TRUE)
+  }
+}
+
 open_notebook <- function(rmdFile = NULL){
   if (!is.null(rmdFile)) {
     options(NOTEBOOK_TO_OPEN = normalizePath(rmdFile))
     on.exit(options(NOTEBOOK_TO_OPEN = NULL))
   }
+  options(rcharts.mode = 'inline')
+  on.exit(options(rcharts.mode = NULL))
   app <- system.file('apps', 'notebook', package = 'rCharts')
   shiny::runApp(app)
 }
@@ -22,6 +49,9 @@ get_rCharts_assets <- function(lib){
 }
 
 get_lib <- function(lib){
+  if (grepl("^http", lib)){
+    return(list(name = basename(lib), url = lib))
+  }
   if (file.exists(lib)){
     lib_url <- normalizePath(lib)
     lib <- basename(lib_url)
@@ -33,7 +63,7 @@ get_lib <- function(lib){
 
 get_assets <- function(LIB, static = T, cdn = F){
   config = yaml.load_file(file.path(LIB$url, 'config.yml'))[[1]]
-  if (cdn) {
+  if (getOption('rcharts.cdn', cdn)) {
     config$cdn 
   } else {
     assets = config[names(config) != 'cdn']
@@ -141,10 +171,41 @@ read_template <- function(..., package = 'rCharts'){
 #' @keywords internal
 #' @import whisker
 #' @noRd
-render_template <- function(..., data = parent.frame(1)){
-  paste(capture.output(cat(whisker.render(...))), collapse = "\n")
+# render_template <- function(..., data = parent.frame(1)){
+#   paste(capture.output(cat(whisker.render(...))), collapse = "\n")
+# }
+render_template = function(template, data = parent.frame(1), ...){
+  if (file.exists(template) || (grepl("^http", template) && RCurl::url.exists(template))) {
+    template <- read_file(template)
+  }
+  paste(capture.output(
+    cat(whisker.render(template, data = data))
+  ), collapse = "\n")
 }
 
+##' Replace HTML special characters with HTML entities
+##'
+##' The characters \code{c("&", "\"", "'", "<", ">")} will be replaced
+##' with \code{c("&amp;", "&quot;", "&#039;", "&lt;", "&gt;")}
+##' respectively.
+##' @param string the string with (or w/o) HTML special chars
+##' @return the string with special chars replaced.
+##' @author Yihui Xie <\url{http://yihui.name}>
+##' @seealso \code{\link[base]{gsub}}
+##' @references \url{http://php.net/manual/en/function.htmlspecialchars.php}
+##' @keywords manip
+##' @export
+##' @examples
+##' htmlspecialchars("<a href = 'http://yihui.name'>Yihui</a>")
+##' # &lt;a href = &#039;http://yihui.name&#039;&gt;Yihui&lt;/a&gt;
+htmlspecialchars <- function(string) {
+  x = c("&", "\"", "'", "<", ">")
+  subx = c("&amp;", "&quot;", "&#039;", "&lt;", "&gt;")
+  for (i in seq_along(x)) {
+    string = gsub(x[i], subx[i], string, fixed = TRUE)
+  }
+  string
+}
 
 # tpl <- '{{# items }} {{{.}}}\n {{/ items}}'
 # items <- letters[1:5]
@@ -152,3 +213,17 @@ render_template <- function(..., data = parent.frame(1)){
 # render_template <- function(template, data = parent.frame(1), ...){
 #   paste(capture.output(cat(whisker.render(template, data = data, ...))), collapse = '\n')
 # }
+
+
+add_style_ = function(width, height){
+  style = sprintf("<style>
+  .rChart {
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;
+    width: %spx;
+    height: %spx;
+  }  
+  </style>", width, height) 
+  return(style)
+}

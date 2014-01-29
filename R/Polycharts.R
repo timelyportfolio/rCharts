@@ -30,7 +30,7 @@ Polycharts = setRefClass('Polycharts', contains = 'rCharts', methods = list(
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)
     list(
-      chartParams = fixJSON(toJSON(params[names(params) != 'controls'])), 
+      chartParams = toJSON2(params[names(params) != 'controls']), 
       chartId = chartId,
       controls_json = toJSON(params$controls),
       controls = setNames(params$controls, NULL)
@@ -61,6 +61,17 @@ rPlot.default <- function(x, y, data, facet = NULL, ...){
   myChart$layer(x = x, y = y, data = data, facet = facet, ...)
   myChart$facet(from_layer = TRUE)
   return(myChart$copy())
+}
+
+rrPlot <- function(x, y, data, facet = NULL, ...){
+  myChart <- Polycharts$new()
+  myChart$layer(x = x, y = y, data = data, facet = facet, ...)
+  myChart$facet(from_layer = TRUE)
+  myChart$render(cdn = TRUE)
+}
+
+Render <- function(x){
+  x$render(cdn = TRUE)
 }
 
 rPlot.formula <- function(x, data, ...){
