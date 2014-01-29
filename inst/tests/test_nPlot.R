@@ -49,7 +49,9 @@ test_that("nPlot output seems correct",{
   )
   expect_that(
     XML::xpathSApply(doc,"//script",xmlValue),
-    is_a("character")  # do we test for values with regex
+    is_a("character")
+    # do we test for values with regex
+    # or test to make sure all expected tags there?
   )
   #somehow test examples.R
   #placeholder since this will run all the examples
