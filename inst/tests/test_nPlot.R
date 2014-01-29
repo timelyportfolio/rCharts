@@ -1,11 +1,11 @@
 context("nPlot instantiation")
 
-hairEye <- data.frame(HairEyeColor)
+hairEye <- as.data.frame(HairEyeColor)
 
 test_that("nPlot creates expected structure", {
   expect_that(nPlot(), throws_error())
   expect_that(
-    nPlot(
+    n1 <- nPlot(
       Freq ~ Hair,
       group = "Sex",
       data = subset(hairEye, Eye=="Brown"),
@@ -14,21 +14,15 @@ test_that("nPlot creates expected structure", {
     is_a("Nvd3")
   )
   expect_that(
-    nPlot(
-      Freq ~ Hair,
-      group = "Sex",
-      data = subset(hairEye, Eye=="Brown"),
-      type = "multiBarChart"
-    )$params,
+    n1$params,
     is_a("list")
   )
   expect_identical(
-    nPlot(
-      Freq ~ Hair,
-      group = "Sex",
-      data = subset(hairEye, Eye=="Brown"),
-      type = "multiBarChart"
-    )$params$x,
+    n1$params$x,
     "Hair"
+  )
+  expect_identical(
+    n1$params$y,
+    "Freq"
   )
 })
