@@ -51,4 +51,11 @@ test_that("nPlot output seems correct",{
     XML::xpathSApply(doc,"//script",xmlValue),
     is_a("character")  # do we test for values with regex
   )
+  #somehow test examples.R
+  #placeholder since this will run all the examples
+  #to visually inspect results
+  expect_that(
+    source("inst/libraries/nvd3/examples.R"),
+    is_a("list")
+  )
 })
