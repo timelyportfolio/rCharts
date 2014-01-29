@@ -55,7 +55,8 @@ test_that("nPlot output seems correct",{
   #placeholder since this will run all the examples
   #to visually inspect results
   expect_that(
-    source("inst/libraries/nvd3/examples.R"),
-    is_a("list")
+    source("../libraries/nvd3/examples.R"),
+    is_a("list") #list not important; just a way to run
   )
+  #test other modes in show: server, inline, iframe??
 })
