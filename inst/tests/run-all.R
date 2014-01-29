@@ -4,4 +4,4 @@
 library(testthat)
 library(rCharts)
 
-test-package("rCharts")
+test_package("rCharts")
