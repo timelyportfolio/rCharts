@@ -7,10 +7,15 @@ dPlot <- dimplePlot <- function(x, data, ...){
 Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   initialize = function(){
     callSuper(); 
-    params <<- c(params, list(
-      chart = list(), xAxis = list(type="addCategoryAxis", showPercent = FALSE),
-      yAxis = list(type="addMeasureAxis", showPercent = FALSE),
-      zAxis = list(), colorAxis = list(), legend = list()
+    params <<- c(
+      params,
+      list(
+        chart = list(),
+        xAxis = list(type="addCategoryAxis", showPercent = FALSE),
+        yAxis = list(type="addMeasureAxis", showPercent = FALSE),
+        zAxis = list(),
+        colorAxis = list(),
+        legend = list()
     ))
   },
   chart = function(..., replace = F){
@@ -33,6 +38,16 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   },
   getChartParams = function(...){
     params <<- modifyList(params, getLayer(...))
+  },
+  #add layer functionality from polycharts
+  #dimple allows us to add series
+  layer = function(..., copy_layer = F){
+    len = length(params$layers)
+    if (!copy_layer){
+      params$layers[[len + 1]] <<- getLayer(...)
+    } else {
+      params$layers[[len + 1]] <<- merge_list(list(...), params$layers[[len]])
+    }
   },
   getPayload = function(chartId){
     data = toJSONArray(params$data)
