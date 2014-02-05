@@ -10,7 +10,7 @@
 #' \dontrun{
 #' toJSONArray(head(iris))
 #' }
-toJSONArray <- function(obj, json = TRUE, nonames = TRUE){
+toJSONArrayOld <- function(obj, json = TRUE, nonames = TRUE){
   list2keyval <- function(l){
     keys = names(l)
     lapply(keys, function(key){
@@ -40,6 +40,16 @@ toJSONArray2 <- function(obj, json = TRUE, names = TRUE, ...){
   } else {
     names(value) <- NULL;
     return(value)
+  }
+}
+
+toJSONArray <- function(df, nonames = TRUE, json =T){
+  l = plyr::alply(df, 1, as.list)
+  if(nonames){ names(l) = NULL }
+  if (json){
+    rjson::toJSON(l)
+  } else {
+    l
   }
 }
 
