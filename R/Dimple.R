@@ -15,6 +15,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
         yAxis = list(type="addMeasureAxis", showPercent = FALSE),
         zAxis = list(),
         colorAxis = list(),
+        layers = list(),
         legend = list()
     ))
   },
@@ -56,15 +57,8 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     #need to explore this
     #as of now thought chart is not being used
     chart = toChain(params$chart, 'myChart')
-    #cannot eliminate so changed toChain to toJSON
-    #but need to revert back to toChain for the axes
-    xAxis = toJSON(params$xAxis) #toChain(params$xAxis, 'chart.xAxis')
-    yAxis = toJSON(params$yAxis) #toChain(params$yAxis, 'chart.yAxis')
-    zAxis = toJSON(params$zAxis)
-    colorAxis = toJSON(params$colorAxis)
-    legend = toJSON(params$legend)
-    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'yAxis', 'zAxis', 'colorAxis', 'legend'))])
-    list(opts = opts, xAxis = xAxis, yAxis = yAxis, zAxis = zAxis, colorAxis = colorAxis, legend = legend, data = data, 
+    opts = toJSON2(params[!(names(params) %in% c('data', 'chart'))])
+    list(opts = opts, data = data, 
          chart = chart, chartId = chartId)
   }
 ))
