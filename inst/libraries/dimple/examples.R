@@ -606,9 +606,9 @@ d1 <- dPlot(
   y = "Month",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "area",
-  bounds = list(x=80,y=30,height=480,width=330),
-  height = 400,
-  width = 590
+  bounds = list(x=80,y=30,width=330,height=480),
+  height = 590,
+  width = 400
 )
 d1$xAxis(type = "addMeasureAxis")
 d1$yAxis(type = "addCategoryAxis", orderRule = "Date")
@@ -623,16 +623,16 @@ d1 <- dPlot(
   groups = "Channel",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "area",
-  bounds = list(x=80,y=30,height=480,width=330),
-  height = 400,
-  width = 590
+  bounds = list(x=80,y=30,width=330,height=480),
+  height = 590,
+  width = 400
 )
 d1$xAxis(type = "addMeasureAxis")
 d1$yAxis(type = "addCategoryAxis", grouporderRule = "Date")
 d1$legend(
-  x = 60,
+  x = 80,
   y = 10,
-  width = 500,
+  width = 330,
   height = 20,
   horizontalAlign = "right"
 )
@@ -651,7 +651,7 @@ d1 <- dPlot(
   groups = "Owner",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "area",
-  bounds = list(x=90,y=30,height=470,width=330),
+  bounds = list(x=90,y=30,width=470,height=330),
   lineWeight = 1,
   barGap = 0.05,
   height = 400,
@@ -668,7 +668,7 @@ d1 <- dPlot(
   groups = "SKU",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "area",
-  bounds = list(x=90,y=30,height=320,width=330),
+  bounds = list(x=90,y=30,width=320,height=330),
   lineWeight = 1,
   barGap = 0.05,
   height = 400,
@@ -746,7 +746,7 @@ d1 <- dPlot(
   groups = "Brand",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "line",
-  bounds = list(x=70,y=30,height=420,width=330),
+  bounds = list(x=70,y=30,width=420,height=330),
   barGap = 0.05,
   height = 400,
   width = 590
@@ -770,7 +770,7 @@ d1 <- dPlot(
   y = "Month",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "line",
-  bounds = list(x=80,y=30,height=480,width=330),
+  bounds = list(x=80,y=30,width=480,height=330),
   height = 400,
   width = 590
 )
@@ -787,7 +787,7 @@ d1 <- dPlot(
   groups = "Channel",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "line",
-  bounds = list(x=80,y=30,height=480,width=330),
+  bounds = list(x=80,y=30,width=480,height=330),
   height = 400,
   width = 590
 )
@@ -811,7 +811,7 @@ d1 <- dPlot(
   groups = "Owner",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "line",
-  bounds = list(x=90,y=30,height=470,width=330),
+  bounds = list(x=90,y=30,width=470,height=330),
   barGap = 0.05,
   height = 400,
   width = 590
@@ -829,7 +829,7 @@ d1 <- dPlot(
   groups = "Brand",
   data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   type = "line",
-  bounds = list(x=90,y=30,height=320,width=330),
+  bounds = list(x=90,y=30,width=320,height=330),
   barGap = 0.05,
   height = 400,
   width = 590
