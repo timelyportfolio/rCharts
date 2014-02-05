@@ -64,7 +64,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     chart = toChain3(params$chart, 'myChart')
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)
-    opts = rjson::toJSON(params[!(names(params) %in% c('data', 'chart', 'controls'))])
+    opts = toJSON2(params[!(names(params) %in% c('data', 'chart', 'controls'))])
     list(opts = opts, data = data, 
          chart = chart, chartId = chartId,
          controls = controls, controls_json = controls_json)
