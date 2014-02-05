@@ -845,6 +845,22 @@ d1$legend(
 )
 d1
 
+#show how to change defaultColors
+
+require(latticeExtra)
+d1$defaultColors(theEconomist.theme()$superpose.line$col, replace=T)
+d1
+d1$defaultColors(brewer.pal(n=9,"Blues"), replace=T)
+d1
+d1$defaultColors("#!d3.scale.category20()!#", replace=T)
+d1
+d1$defaultColors("#!d3.scale.category20b()!#", replace=T)
+d1
+d1$defaultColors("#!d3.scale.category20c()!#", replace=T)
+d1
+d1$defaultColors("#!d3.scale.category10()!#", replace=T)
+d1
+
 
 #example 48 timeAxis
 data( economics, package = "ggplot2" )
