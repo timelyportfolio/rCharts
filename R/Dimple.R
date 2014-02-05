@@ -15,8 +15,10 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
         yAxis = list(type="addMeasureAxis", showPercent = FALSE),
         zAxis = list(),
         colorAxis = list(),
+        defaultColors = list(),
         layers = list(),
-        legend = list()
+        legend = list(),
+        controls = list()
     ))
   },
   chart = function(..., replace = F){
@@ -34,6 +36,9 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   colorAxis = function(...){
     .self$set(colorAxis = list(...))
   },
+  defaultColors = function(..., replace = T){
+    params$defaultColors <<- setSpec(params$defaultColors, ..., replace = replace)
+  },   
   legend = function(...){
     .self$set(legend = list(...))
   },
@@ -57,8 +62,11 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     #need to explore this
     #as of now thought chart is not being used
     chart = toChain(params$chart, 'myChart')
-    opts = rjson::toJSON(params[!(names(params) %in% c('data', 'chart'))])
+    controls_json = toJSON(params$controls)
+    controls = setNames(params$controls, NULL)
+    opts = rjson::toJSON(params[!(names(params) %in% c('data', 'chart', 'controls'))])
     list(opts = opts, data = data, 
-         chart = chart, chartId = chartId)
+         chart = chart, chartId = chartId,
+         controls = controls, controls_json = controls_json)
   }
 ))
