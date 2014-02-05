@@ -864,3 +864,12 @@ inputFormat = "%Y-%m-%d",
 outputFormat = "%b %Y"
 )
 d1
+
+#test out additional layer/series functionality
+d1$layer(
+  x = "date",
+  y = "psavert",
+  data = NULL,
+  type = "line"
+)
+d1
