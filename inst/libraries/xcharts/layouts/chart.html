@@ -1,6 +1,36 @@
 <script type='text/javascript'>
-    var data = {{{ chartParams }}},
+    var params = {{{ chartParams }}},
       chartType = "{{{ chartType }}}",
-      myChart = new xChart(chartType, data, '#{{{ chartId }}}');
+      myChart
+      
+    var dataset = [];
+    params.data[Object.keys(params.data)[0]].forEach(function(d,i){
+      var tempdata = {};
+      Object.keys(params.data).map(function(key) {
+        tempdata[key] = params.data[key][i];
+      })
+      dataset.push(tempdata);
+    });
+    
+    dataset = d3.nest().key(function(d){return d[params.groups]}).entries(dataset);
+    
+    dataset.map(function(d){
+      d[params.groups] = d.key;
+      d.className =  "." + d.key;
+      d.data = d.values;
+      d.data.map(function(datum){
+        datum.x = datum[params.x];
+        datum.y = datum[params.y];
+      })
+      delete d.values;
+    })
+    
+    var data = {
+              "xScale": params.xScale,
+              "yScale": params.yScale,
+              "main": dataset
+            }
+
+    myChart  = new xChart(chartType, data, '#{{{ chartId }}}', data.options);
+      
 </script>
-<style>figure.rChart {height: 400px;}</style>
