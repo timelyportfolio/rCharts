@@ -80,6 +80,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     opts = toJSON2(params[!(names(params) %in% c('data', 'chart', 'controls', 'filters'))])
     list(opts = opts, data = data, 
          chart = chart, chartId = chartId,
-         controls = controls, controls_json = controls_json)
+         controls = controls, controls_json = controls_json,
+         filters_json = filters_json, hasFilter = (length(params$filters) > 0))
   }
 ))
