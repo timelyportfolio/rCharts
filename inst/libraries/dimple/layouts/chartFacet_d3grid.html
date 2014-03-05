@@ -1,32 +1,89 @@
 <script type="text/javascript">
 (function(){
   var opts = {{{ opts }}},
-    data = {{{ data }}},
-    xAxis = {{{ xAxis }}},
-    yAxis = {{{ yAxis }}},
-    zAxis = {{{ zAxis }}},
-    colorAxis = {{{ colorAxis }}},
-    defaultColors = {{{ defaultColors }}},
-    legend = {{{ legend }}};
+    data = {{{ data }}};
     
   var subCharts = [];  
   
   //move this here for facet template since only occurs once
-  if(defaultColors.length) {
-    defaultColors = defaultColors[0];
-    if (typeof(defaultColors) == "function") {
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
       //assume this is a d3 scale
       //for now loop through first 20 but need a better way to handle
       defaultColorsArray = [];
       for (var n=0;n<20;n++) {
-        defaultColorsArray.push(defaultColors(n));
+        defaultColorsArray.push(opts.defaultColors(n));
       };
-      defaultColors = defaultColorsArray;
+      opts.defaultColors = defaultColorsArray;
     }
-    defaultColors.forEach(function(d,i) {
-      defaultColors[i] = new dimple.color(d);
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
     })
-  } 
+  }
+  
+  var c = null;
+  
+  function buildSeries(layer, hidden, myChart){
+      var x = buildAxis("x", layer, myChart);
+      x.hidden = hidden;
+      
+      var y = buildAxis("y", layer, myChart);
+      y.hidden = hidden;
+      
+      //z for bubbles
+      var z = null;
+      if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+        z = buildAxis("z", layer, myChart);
+      };
+      
+      //here think I need to evaluate group and if missing do null
+      //as the group argument
+      //if provided need to use groups from layer
+      var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+      
+      if(layer.hasOwnProperty("groups")) {
+        s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups];
+        //series offers an aggregate method that we will also need to check if available
+        //options available are avg, count, max, min, sum
+        if (!(typeof(layer.aggregate) === 'undefined')) {
+          s.aggregate = eval(layer.aggregate);
+        }
+        if (!(typeof(layer.lineWeight) === 'undefined')) {
+          s.lineWeight = eval(layer.lineWeight);
+        }
+        if (!(typeof(layer.barGap) === 'undefined')) {
+          s.barGap = eval(layer.barGap);
+        }    
+      };
+      myChart.series.push(s);
+      return s;
+    };
+    
+  //function to build axes
+  function buildAxis(position,layer,myChart){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+      
+      
+
   
 
   //if facet not provided for x or y make Dummy variable
@@ -39,9 +96,9 @@
   }
 
   var rows = d3.set(data.map(function(d){return d[opts.facet.y]})).values();
-  var nrow = rows.length;
+  var nrow = opts.facet.nrow ? opts.facet.nrow : rows.length;
   var cols = d3.set(data.map(function(d){return d[opts.facet.x]})).values()
-  var ncol = cols.length;
+  var ncol = opts.facet.ncol ? opts.facet.ncol : cols.length;
   
   var tuples = d3.merge(rows.map(function(row,irow){return cols.map(function(col,icol){return {key:row + "~" + col, values: {"row":irow, "col":icol} }})}))
     
@@ -112,87 +169,31 @@ grid(tuples);
   
   
   //dimple allows use of custom CSS with noFormats
-  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
-  //for markimekko and addAxis also have third parameter measure
-  //so need to evaluate if measure provided
-  //x axis
-  var subx;
-  if(xAxis.measure) {
-    subx = subChart[xAxis.type]("x",opts.x,xAxis.measure);
-  } else {
-    subx = subChart[xAxis.type]("x", opts.x);
-  };
-  if(!(xAxis.type === "addPctAxis")) subx.showPercent = xAxis.showPercent;
-  if (xAxis.orderRule) subx.addOrderRule(xAxis.orderRule);
-  if (xAxis.grouporderRule) subx.addGroupOrderRule(xAxis.grouporderRule);  
-  if (xAxis.overrideMin) subx.overrideMin = xAxis.overrideMin;
-  if (xAxis.overrideMax) subx.overrideMax = xAxis.overrideMax;
-  if (xAxis.overrideMax) subx.overrideMax = xAxis.overrideMax;
-  if (xAxis.inputFormat) subx.dateParseFormat = xAxis.inputFormat;
-  if (xAxis.outputFormat) subx.tickFormat = xAxis.outputFormat;
-  //y axis
-  var suby;
-  if(yAxis.measure) {
-    suby = subChart[yAxis.type]("y",opts.y,yAxis.measure);
-  } else {
-    suby = subChart[yAxis.type]("y", opts.y);
-  };
-  if(!(yAxis.type === "addPctAxis")) suby.showPercent = yAxis.showPercent;
-  if (yAxis.orderRule) suby.addOrderRule(yAxis.orderRule);
-  if (yAxis.grouporderRule) suby.addGroupOrderRule(yAxis.grouporderRule);
-  if (yAxis.overrideMin) suby.overrideMin = yAxis.overrideMin;
-  if (yAxis.overrideMax) suby.overrideMax = yAxis.overrideMax;
-  if (yAxis.inputFormat) suby.dateParseFormat = yAxis.inputFormat;
-  if (yAxis.outputFormat) suby.tickFormat = yAxis.outputFormat;
-//z for bubbles
-    var subz;
-  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
-    if(zAxis.measure) {
-      subz = subChart[zAxis.type]("z",opts.z,zAxis.measure);
-    } else {
-      sub = subChart[zAxis.type]("z", opts.z);
-    };
-    if(!(zAxis.type === "addPctAxis")) subz.showPercent = zAxis.showPercent;
-    if (zAxis.orderRule) subz.addOrderRule(zAxis.orderRule);
-    if (zAxis.overrideMin) subz.overrideMin = zAxis.overrideMin;
-    if (zAxis.overrideMax) subz.overrideMax = zAxis.overrideMax;
+  if(opts.noFormats) { subChart.noFormats = opts.noFormats; };
+  
+  //need to fix later for better colorAxis support
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = subChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
   }
-  if(d3.keys(colorAxis).length > 0) {
-    subChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
-  }
+
   
   //allow manipulation of default colors to use with dimple
-  if(defaultColors.length) {
+  if(opts.defaultColors.length) {
     //move transform of defaultColors to top
-    subChart.defaultColors = defaultColors;
+    subChart.defaultColors = opts.defaultColors;
   }  
   
-  //here need think I need to evaluate group and if missing do null
-  //as the first argument
-  //if provided need to use groups from opts
-  var seriesVariables = [];
-  if(!(opts.facet.x==="Dummy")) seriesVariables.push(opts.facet.x)
-  if(!(opts.facet.y==="Dummy")) seriesVariables.push(opts.facet.y)
-  if(opts.hasOwnProperty("groups")) {
-    seriesVariables.push(opts.groups)
-    var subs = subChart.addSeries( seriesVariables, dimple.plot[opts.type] );
-    //series offers an aggregate method that we will also need to check if available
-    //options available are avg, count, max, min, sum
-    if (!(typeof(opts.aggregate) === 'undefined')) {
-      subs.aggregate = eval(opts.aggregate);
-    }
-    if (!(typeof(opts.lineWeight) === 'undefined')) {
-      subs.lineWeight = eval(opts.lineWeight);
-    }
-    if (!(typeof(opts.barGap) === 'undefined')) {
-      subs.barGap = eval(opts.barGap);
-    }    
-  } else var subs = myChart.addSeries( seriesVariables, dimple.plot[opts.type] );
+  buildSeries(opts, false, subChart);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true, subChart);
+    })
+  }
   //unsure if this is best but if legend is provided (not empty) then evaluate
-  if(d3.keys(legend).length > 0) {
-    var l = subChart.addLegend();
-    d3.keys(legend).forEach(function(d){
-      l[d] = legend[d];
+  if(d3.keys(opts.legend).length > 0) {
+    var l =subChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
     });
   }
   //quick way to get this going but need to make this cleaner
@@ -213,15 +214,23 @@ var ypos = d3.extent(subCharts,function(d){return d.y});
 subCharts.filter(function(d){
   return d.x!=xpos[0];
 }).forEach(function(d){
-  d.axes[1].shapes.remove();
-  d.axes[1].titleShape.remove();
+  d.axes.forEach(function(axis){
+    if (axis.position === "y"){
+      axis.shapes.remove();
+      axis.titleShape.remove();
+    }
+  })
 });
 //now x for those not in row 1
 subCharts.filter(function(d){
   return d.y!=ypos[1];
 }).forEach(function(d){
-  d.axes[0].shapes.remove();
-  d.axes[0].titleShape.remove();
+  d.axes.forEach(function(axis){
+    if (axis.position === "x"){
+      axis.shapes.remove();
+      axis.titleShape.remove();
+    }
+  })
 });
 
 /*
