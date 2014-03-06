@@ -1,6 +1,8 @@
 dimple:
   jshead: [js/dimple.v1.1.5.js, js/d3.v3.js, js/d3-grid.js]
+  css: css/tooltipfix.css
   cdn:
+    css: http://timelyportfolio.github.io/rCharts_dimple/tooltipfix.css
     jshead: 
       - "http://d3js.org/d3.v3.min.js"
       - "http://dimplejs.org/dist/dimple.v1.1.5.min.js"
