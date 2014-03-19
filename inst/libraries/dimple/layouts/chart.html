@@ -87,16 +87,17 @@
     //as of v1.1.4 dimple can use different dataset for each series
     if(layer.data){
       //convert to an array of objects
+      var tempdata;
       //avoid lodash for now
       datakeys = d3.keys(layer.data)
-      layer.dataarray = layer.data[datakeys[1]].map(function(d,i){
+      tempdata = layer.data[datakeys[1]].map(function(d,i){
         var tempobj = {}
         datakeys.forEach(function(key){
           tempobj[key] = layer.data[key][i]
         })
         return tempobj
       })
-      s.data = layer.dataarray;
+      s.data = tempdata;
     }
     
     if(layer.hasOwnProperty("groups")) {
