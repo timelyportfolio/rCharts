@@ -104,16 +104,17 @@
       s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups];
       //series offers an aggregate method that we will also need to check if available
       //options available are avg, count, max, min, sum
-      if (!(typeof(layer.aggregate) === 'undefined')) {
-        s.aggregate = eval(layer.aggregate);
-      }
-      if (!(typeof(layer.lineWeight) === 'undefined')) {
-        s.lineWeight = eval(layer.lineWeight);
-      }
-      if (!(typeof(layer.barGap) === 'undefined')) {
-        s.barGap = eval(layer.barGap);
-      }    
-    };    
+    }
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }    
+  
    /* if (!(typeof(layer.eventHandler) === 'undefined')) {
       layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
       layer.eventHandler.forEach(function(evt){
