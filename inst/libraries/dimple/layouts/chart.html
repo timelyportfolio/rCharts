@@ -37,6 +37,9 @@
   var c = null;
   if(d3.keys(opts.colorAxis).length > 0) {
     c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+    if(opts.colorAxis.outputFormat){
+      c.tickFormat = opts.colorAxis.outputFormat;
+    }
   }
   
   //allow manipulation of default colors to use with dimple
