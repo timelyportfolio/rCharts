@@ -909,6 +909,7 @@ d1$xAxis(type="addMeasureAxis",orderRule="x")
 d1  #just one layer
 
 #now add a layer with a line to represent normal distribution
+#! note: this is buggy with Chrome, but works in IE (don't hear that often)
 d1$layer(
   x = "x",
   y = "normref",
