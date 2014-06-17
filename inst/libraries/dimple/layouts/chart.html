@@ -44,7 +44,11 @@
   
   //allow manipulation of default colors to use with dimple
   if(opts.defaultColors.length) {
-    //opts.defaultColors = opts.defaultColors[0];
+    //need to adjust this if not handed an array of arrays
+    //depends on which toJSON used in R
+    if (opts.defaultColors[0].length) {
+      opts.defaultColors = opts.defaultColors[0];
+    }
     if (typeof(opts.defaultColors) == "function") {
       //assume this is a d3 scale
       //for now loop through first 20 but need a better way to handle
