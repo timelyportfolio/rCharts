@@ -37,39 +37,13 @@
   var c = null;
   if(d3.keys(opts.colorAxis).length > 0) {
     c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
-    if(opts.colorAxis.outputFormat){
-      c.tickFormat = opts.colorAxis.outputFormat;
-    }
   }
-  
-  //allow manipulation of default colors to use with dimple
-  if(opts.defaultColors.length) {
-    //opts.defaultColors = opts.defaultColors[0];
-    if (typeof(opts.defaultColors) == "function") {
-      //assume this is a d3 scale
-      //for now loop through first 20 but need a better way to handle
-      defaultColorsArray = [];
-      for (var n=0;n<20;n++) {
-        defaultColorsArray.push(opts.defaultColors(n));
-      };
-      opts.defaultColors = defaultColorsArray;
-    }
-    opts.defaultColors.forEach(function(d,i) {
-      opts.defaultColors[i] = new dimple.color(d);
-    })
-    myChart.defaultColors = opts.defaultColors;
-  }  
   
   //do series
   //set up a function since same for each
   //as of now we have x,y,groups,data,type in opts for primary layer
   //and other layers reside in opts.layers
   function buildSeries(layer, hidden){
-    //inherit from primary layer if not intentionally changed or xAxis, yAxis, zAxis null
-    if (!layer.xAxis) layer.xAxis = opts.xAxis;    
-    if (!layer.yAxis) layer.yAxis = opts.yAxis;
-    if (!layer.zAxis) layer.zAxis = opts.zAxis;
-    
     var x = buildAxis("x", layer);
     x.hidden = hidden;
     
@@ -87,60 +61,21 @@
     //if provided need to use groups from layer
     var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
     
-    //as of v1.1.4 dimple can use different dataset for each series
-    if(layer.data){
-      //convert to an array of objects
-      var tempdata;
-      //avoid lodash for now
-      datakeys = d3.keys(layer.data)
-      tempdata = layer.data[datakeys[1]].map(function(d,i){
-        var tempobj = {}
-        datakeys.forEach(function(key){
-          tempobj[key] = layer.data[key][i]
-        })
-        return tempobj
-      })
-      s.data = tempdata;
-    }
-    
     if(layer.hasOwnProperty("groups")) {
-      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups];
+      s.categoryFields = layer.groups;
       //series offers an aggregate method that we will also need to check if available
       //options available are avg, count, max, min, sum
-    }
-    if (!(typeof(layer.aggregate) === 'undefined')) {
-      s.aggregate = eval(layer.aggregate);
-    }
-    if (!(typeof(layer.lineWeight) === 'undefined')) {
-      s.lineWeight = eval(layer.lineWeight);
-    }
-    if (!(typeof(layer.barGap) === 'undefined')) {
-      s.barGap = eval(layer.barGap);
-    }    
-  
-   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
-      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
-      layer.eventHandler.forEach(function(evt){
-        s.addEventHandler(evt.event, eval(evt.handler))
-      })
-    }*/
-      
+      if (!(typeof(layer.aggregate) === 'undefined')) {
+        s.aggregate = eval(layer.aggregate);
+      }
+      if (!(typeof(layer.lineWeight) === 'undefined')) {
+        s.lineWeight = eval(layer.lineWeight);
+      }
+      if (!(typeof(layer.barGap) === 'undefined')) {
+        s.barGap = eval(layer.barGap);
+      }    
+    };
     myChart.series.push(s);
-    
-    /*placeholder fix domain of primary scale for new series data
-    //not working right now but something like this
-    //for now just use overrideMin and overrideMax from rCharts
-    for( var i = 0; i<2; i++) {
-      if (!myChart.axes[i].overrideMin) {
-        myChart.series[0]._axisBounds(i==0?"x":"y").min = myChart.series[0]._axisBounds(i==0?"x":"y").min < s._axisBounds(i==0?"x":"y").min ? myChart.series[0]._axisBounds(i==0?"x":"y").min : s._axisBounds(i==0?"x":"y").min;
-      }
-      if (!myChart.axes[i].overrideMax) {  
-        myChart.series[0]._axisBounds(i==0?"x":"y")._max = myChart.series[0]._axisBounds(i==0?"x":"y").max > s._axisBounds(i==0?"x":"y").max ? myChart.series[0]._axisBounds(i==0?"x":"y").max : s._axisBounds(i==0?"x":"y").max;
-      }
-      myChart.axes[i]._update();
-    }
-    */
-    
     return s;
   };
   
@@ -154,7 +89,7 @@
   if(d3.keys(opts.legend).length > 0) {
     var l =myChart.addLegend();
     d3.keys(opts.legend).forEach(function(d){
-      l[d] = opts.legend[d];
+      l[d] = legend[d];
     });
   }
   //quick way to get this going but need to make this cleaner
