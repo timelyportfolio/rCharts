@@ -56,12 +56,12 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     }
   },
   getPayload = function(chartId){
-    data = to_json(params$data, orient="records")
+    data = toJSONArray(params$data)
     #there is potential to  chain the entire thing
     #making much cleaner
-    #need to explore this with toChain3 added in dimple_layer branch
-    #as of now though chart is not being used
-    chart = toChain(params$chart, 'myChart')
+    #need to explore this
+    #as of now thought chart is not being used
+    chart = toChain3(params$chart, 'myChart')
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)
     opts = toJSON2(params[!(names(params) %in% c('data', 'chart', 'controls'))])
