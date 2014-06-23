@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var {{ chartId }} = (function() {
   var opts = {{{ opts }}},
     data = {{{ data }}};
   var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
@@ -166,5 +167,6 @@
     myChart.setStoryboard(opts.storyboard);
   };
   myChart.draw();
-
+  return myChart;
+})();
 </script>
