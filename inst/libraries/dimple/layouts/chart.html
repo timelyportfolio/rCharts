@@ -122,7 +122,9 @@ var {{ chartId }} = (function() {
     if (!(typeof(layer.barGap) === 'undefined')) {
       s.barGap = eval(layer.barGap);
     }    
-  
+    if (!(typeof(layer.interpolation) === 'undefined')) {
+      s.interpolation = eval(layer.interpolation);
+    }     
    /* if (!(typeof(layer.eventHandler) === 'undefined')) {
       layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
       layer.eventHandler.forEach(function(evt){
