@@ -117,10 +117,10 @@ var {{ chartId }} = (function() {
       s.aggregate = eval(layer.aggregate);
     }
     if (!(typeof(layer.lineWeight) === 'undefined')) {
-      s.lineWeight = eval(layer.lineWeight);
+      s.lineWeight = layer.lineWeight;
     }
     if (!(typeof(layer.barGap) === 'undefined')) {
-      s.barGap = eval(layer.barGap);
+      s.barGap = layer.barGap;
     }    
     if (!(typeof(layer.interpolation) === 'undefined')) {
       s.interpolation = layer.interpolation;

@@ -924,6 +924,7 @@ d1
 #see interpolate optionsfrom d3 docs
 #https://github.com/mbostock/d3/wiki/SVG-Shapes
 
+#http://dimplejs.org/examples_viewer.html?id=steps_horizontal_stacked
 #var myChart = new dimple.chart(svg, data);
 d1 <- dPlot(
   data = data,
@@ -947,6 +948,40 @@ d1 <- dPlot(
     horizontalAlign = "right"
   )
 #myChart.addLegend(60, 10, 500, 20, "right");
+)
+d1
+#myChart.draw();
+
+#http://dimplejs.org/examples_viewer.html?id=area_steps_horizontal_grouped_100pct
+d1 <- dPlot(
+  data = subset(data, Owner %in% c("Aperture","Black Mesa")),
+#var myChart = new dimple.chart(svg, data);
+  bounds = list(x=70,y=30,width=340,height=330),
+#myChart.setBounds(70, 30, 340, 330);
+  x = c("Owner","Month"),
+#var x = myChart.addCategoryAxis("x", ["Owner", "Month"]);
+  xAxis = list( grouporderRule = "Date" ),
+#x.addGroupOrderRule("Date");
+  y = "UnitSales",
+  yAxis = list( type = "addPctAxis" ),
+#myChart.addPctAxis("y", "Unit Sales");
+  groups = "SKU",
+  type = "area",
+#var s = myChart.addSeries("SKU", dimple.plot.area);
+  interpolation = "step",
+#s.interpolation = "step";
+  lineWeight = 1,
+#s.lineWeight = 1;
+  barGap = 0.05,
+#s.barGap = 0.05;
+  legend = list(
+    x = 430,
+    y = 20,
+    width = 100,
+    height = 300,
+    horizontalAlign = "left"
+  )
+#myChart.addLegend(430, 20, 100, 300, "left");
 )
 d1
 #myChart.draw();
