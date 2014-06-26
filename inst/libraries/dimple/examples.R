@@ -918,3 +918,35 @@ d1$layer(
   type="line"
 )
 d1
+
+
+#example50 interpolation options from dimple v2.0.0
+#see interpolate optionsfrom d3 docs
+#https://github.com/mbostock/d3/wiki/SVG-Shapes
+
+#var myChart = new dimple.chart(svg, data);
+d1 <- dPlot(
+  data = data,
+  bounds = list(x=60,y=30,width=505,height=305),
+#myChart.setBounds(60, 30, 505, 305);
+  x = "Month",
+#var x = myChart.addCategoryAxis("x", "Month");
+  xAxis = list(orderRule = "Date"),
+#x.addOrderRule("Date");
+  y = "UnitSales",
+#myChart.addMeasureAxis("y", "Unit Sales");
+  type = "line", groups = "Channel",
+#var s = myChart.addSeries("Channel", dimple.plot.line);,
+  interpolation = "step",
+#s.interpolation = "step";
+  legend = list(
+    x = 60,
+    y = 10,
+    width = 500,
+    height = 20,
+    horizontalAlign = "right"
+  )
+#myChart.addLegend(60, 10, 500, 20, "right");
+)
+d1
+#myChart.draw();
