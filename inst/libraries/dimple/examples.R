@@ -927,7 +927,7 @@ d1
 #http://dimplejs.org/examples_viewer.html?id=steps_horizontal_stacked
 #var myChart = new dimple.chart(svg, data);
 d1 <- dPlot(
-  data = data,
+  data = subset(data, Owner %in% c("Aperture","Black Mesa")),
   bounds = list(x=60,y=30,width=505,height=305),
 #myChart.setBounds(60, 30, 505, 305);
   x = "Month",
