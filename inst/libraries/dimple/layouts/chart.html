@@ -168,6 +168,11 @@ var {{ chartId }} = (function() {
   if(opts.storyboard) {
     myChart.setStoryboard(opts.storyboard);
   };
+  
+  //catch all for other options
+  //these can be provided by dMyChart$chart( ... )
+  {{{ chart }}}  
+  
   myChart.draw();
   return myChart;
 })();
