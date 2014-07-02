@@ -150,10 +150,10 @@ rCharts = setRefClass('rCharts', list(params = 'list', lib = 'character',
         .self$save(file_, cdn = cdn)
         cat(c(
           "<iframe src='", file_, 
-          "' scrolling='no' frameBorder='0' seamless", paste("class='rChart", lib, "'"),
-          "id=iframe-", params$dom, "></iframe>",
-          "<style>iframe.rChart{ width: 100%; height: 400px;}</style>"
-        ))
+          "' scrolling='no' frameBorder='0' seamless ", paste("class='rChart", lib, "'"),
+          " id='iframe-", params$dom, "' height=", params$height + 50,
+          " width=", params$width + 50 ,"></iframe>"
+        ),sep="")
         # cat(sprintf("<iframe src=%s seamless></iframe>", file_))
         return(invisible())
       },
