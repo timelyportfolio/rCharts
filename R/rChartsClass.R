@@ -137,7 +137,7 @@ rCharts = setRefClass('rCharts', list(params = 'list', lib = 'character',
         )
       },
       inline = {
-        add_ext_widgets(lib)
+        #add_ext_widgets(lib)
         return(.self$print(...))
       },
       iframe = {
