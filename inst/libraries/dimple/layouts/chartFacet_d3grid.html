@@ -291,56 +291,56 @@ function drawChart(opts, data){
       subChart.draw();
     })
   
-    //get rid of all y for those not in column 1
-    //can easily customize this to only remove bits and pieces
-    if(opts.facet.removeAxes) {
+  //get rid of all y for those not in column 1
+  //can easily customize this to only remove bits and pieces
+  if(opts.facet.removeAxes) {
+    ["x","y","z"].forEach(function(position){
       //work on axis scaling
       //assume if remove then same scales for all charts
-      axisdomain = [];
-      ["y"].forEach(function(position){
-        subCharts.forEach(function(subChart){
-          subChart.axes.forEach(function(axis){
-            if (axis.position === position){
-              axisdomain.push(axis._scale.domain())
-            }
-          })
-        });
-        axisdomain = d3.extent(_.flatten(axisdomain));
-        subCharts.forEach(function(subChart){
-          subChart.axes.forEach(function(axis){
-            if (axis.position === position){
-              axis.overrideMin = axisdomain[0];
-              axis.overrideMax = axisdomain[1];
-            }
-          })
-          subChart.draw(null,true)
-        });
+      axisdomain = [];      
+      subCharts.forEach(function(subChart){
+        subChart.axes.forEach(function(axis){
+          if (axis.position === position && !axis._hasCategories()){
+            axisdomain.push(axis._scale.domain())
+          }
+        })
+      });
+      axisdomain = d3.extent(_.flatten(axisdomain));
+      subCharts.forEach(function(subChart){
+        subChart.axes.forEach(function(axis){
+          if (axis.position === position && !axis._hasCategories()){
+            axis.overrideMin = axisdomain[0];
+            axis.overrideMax = axisdomain[1];
+          }
+        })
+        subChart.draw(null,true)
+      });
+    })
+    
+    //evaluate which do not fall in column 1 or row 1 to remove
+    var xpos = d3.extent(subCharts,function(d){return d.x});
+    var ypos = d3.extent(subCharts,function(d){return d.y});    
+    subCharts.filter(function(d){
+      return d.x!=xpos[0];
+    }).forEach(function(d){
+      d.axes.forEach(function(axis){
+        if (axis.position === "y"){
+          axis.shapes.remove();
+          axis.titleShape.remove();
+        }
       })
-      
-      //evaluate which do not fall in column 1 or row 1 to remove
-      var xpos = d3.extent(subCharts,function(d){return d.x});
-      var ypos = d3.extent(subCharts,function(d){return d.y});    
-      subCharts.filter(function(d){
-        return d.x!=xpos[0];
-      }).forEach(function(d){
-        d.axes.forEach(function(axis){
-          if (axis.position === "y"){
-            axis.shapes.remove();
-            axis.titleShape.remove();
-          }
-        })
-      });
-      //now x for those not in row 1
-      subCharts.filter(function(d){
-        return d.y!=ypos[1];
-      }).forEach(function(d){
-        d.axes.forEach(function(axis){
-          if (axis.position === "x"){
-            axis.shapes.remove();
-            axis.titleShape.remove();
-          }
-        })
-      });
+    });
+    //now x for those not in row 1
+    subCharts.filter(function(d){
+      return d.y!=ypos[1];
+    }).forEach(function(d){
+      d.axes.forEach(function(axis){
+        if (axis.position === "x"){
+          axis.shapes.remove();
+          axis.titleShape.remove();
+        }
+      })
+    });
   }
 }
 
