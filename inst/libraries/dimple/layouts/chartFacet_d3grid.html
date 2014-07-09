@@ -20,50 +20,6 @@ function drawChart(opts, data){
   
   subCharts = [];
   
-  if (_.keys(opts.selected).length > 0){
-  // for multiselect union
-    data = _.at(data,_.chain(opts.selected)
-      .map(function(d){
-        return _.compact(
-          data.map(function(val,ind){
-           if(val[_.keys(d)[0]]===d[_.keys(d)[0]]) {
-              return ind
-            } else {return false}
-          })
-        )
-      })
-      .flatten()
-      .uniq()
-      .value()
-    )
-  /* for multiselect intersection
-    data = _.chain(opts.selected)
-      .map(function(d){
-        return _.compact(
-          data.map(function(val,ind){
-           if(val[_.keys(d)[0]]===d[_.keys(d)[0]]) {
-              return ind
-            } else {return false}
-          })
-        )
-      })
-      .value();
-  
-     var intersected = _.countBy(_.flatten(testdata,function(d){return d}));
-
-     var varKeys = _.uniq(_.flatten(opts.selected.map(function(d){return _.keys(d)})));
-
-     data = _.at(data,_.chain(intersected)
-        .map(function(d,i){
-          if (d===varKeys.length) {return i} else {return false}
-        })
-        .compact()
-        .value()
-      );
-    */
-  }
-  
-  
   var c = null;
   
   //do series
