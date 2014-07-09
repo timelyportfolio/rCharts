@@ -18,7 +18,8 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
         defaultColors = list(),
         layers = list(),
         legend = list(),
-        controls = list()
+        controls = list(),
+        filters = list()
     ))
   },
   chart = function(..., replace = F){
@@ -41,6 +42,17 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   },   
   legend = function(...){
     .self$set(legend = list(...))
+  },
+  addFilters = function(...){
+    .self$setTemplate(
+      page = 'rChartControls2.html',
+      script = system.file('libraries', lib, 'controls', 
+                           'chart_multiselect.html', package = 'rCharts')
+    )
+    .self$set(width = 700)
+    params$filters <<- toJSONArray2(ldply(list(...), function(y) {
+      data.frame(variable = y, value = unique(params$data[[y]]))
+    }), json = F)
   },
   getChartParams = function(...){
     params <<- modifyList(params, getLayer(...))
@@ -65,9 +77,14 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     chart = toChain3(params$chart, 'myChart')
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)
-    opts = toJSON2(params[!(names(params) %in% c('data', 'chart', 'controls'))])
-    list(opts = opts, data = data, 
-         chart = chart, chartId = chartId,
-         controls = controls, controls_json = controls_json)
+    filters_json = toJSON(params$filters)
+    opts = toJSON2(params[!(names(params) %in% c('data', 'chart', 'controls','filters'))])
+    list(
+      opts = opts
+      , data = data
+      , chart = chart, chartId = chartId
+      , controls = controls, controls_json = controls_json
+      , filters_json = filters_json, hasFilter = (length(params$filters) > 0)
+    )
   }
 ))
