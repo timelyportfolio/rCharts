@@ -50,21 +50,28 @@ var {{ chartId }} = (function() {
     if (opts.defaultColors[0].length) {
       opts.defaultColors = opts.defaultColors[0];
     }
+    defaultColorsArray = [];
     if (typeof(opts.defaultColors) == "function") {
       //assume this is a d3 scale
-      //for now loop through first 20 but need a better way to handle
-      defaultColorsArray = [];
-      for (var n=0;n<20;n++) {
-        defaultColorsArray.push(opts.defaultColors(n));
-      };
-      opts.defaultColors = defaultColorsArray;
+      //if there is a domain for the color scale given
+      //then we will need to assign colors with dimples assignColor
+      if( opts.defaultColors.domain().length > 0 ){
+        defaultColorsArray = opts.defaultColors.range();
+        opts.defaultColors.domain().forEach( function( d, i ) {
+          myChart.assignColor( d, opts.defaultColors.range()[i] )
+        })
+      } else {
+        for (var n=0;n<opts.defaultColors.range().length;n++) {
+          defaultColorsArray.push(opts.defaultColors(n));
+        };
+      }
+    } else {
+      defaultColorsArray = opts.defaultColors;
     }
-    opts.defaultColors.forEach(function(d,i) {
-      opts.defaultColors[i] = new dimple.color(d);
-    })
-    myChart.defaultColors = opts.defaultColors;
-  }  
-  
+
+    myChart.defaultColors = defaultColorsArray.map(function(d) {
+      return new dimple.color(d);
+    });  
   //do series
   //set up a function since same for each
   //as of now we have x,y,groups,data,type in opts for primary layer
