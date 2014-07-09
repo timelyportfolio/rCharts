@@ -37,8 +37,8 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   colorAxis = function(...){
     .self$set(colorAxis = list(...))
   },
-  defaultColors = function(..., replace = T){
-    params$defaultColors <<- setSpec(params$defaultColors, ..., replace = replace)
+  defaultColors = function(...){
+    .self$set(defaultColors = unlist(...))
   },   
   legend = function(...){
     .self$set(legend = list(...))
