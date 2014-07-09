@@ -1,24 +1,11 @@
 <script>
-//global for now until I come up with a better idea
-var svg;
-var subCharts = [];
 var opts = {{{ opts }}},
   data = {{{ data }}};
 
 drawChart(opts,data);
 
 function drawChart(opts, data){ 
-  svg = d3.select("#" + opts.id).select("svg")
-    .attr("width", opts.width)
-    .attr("height", opts.height);
-
-  //delete previous;  would be nice to not remove and redraw
-  //but get this working first
-  if (svg.selectAll("g")[0].length > 0) {
-    svg.selectAll("*").transition(1000).attr("opacity",0.00001).remove()
-  }
-  
-  subCharts = [];
+  var subCharts = [];
   
   var c = null;
   
@@ -26,22 +13,22 @@ function drawChart(opts, data){
   //set up a function since same for each
   //as of now we have x,y,groups,data,type in opts for primary layer
   //and other layers reside in opts.layers
-  function buildSeries(layer, hidden){
+  function buildSeries(layer, hidden, myChart){
     //inherit from primary layer if not intentionally changed or xAxis, yAxis, zAxis null
     if (!layer.xAxis) layer.xAxis = opts.xAxis;    
     if (!layer.yAxis) layer.yAxis = opts.yAxis;
     if (!layer.zAxis) layer.zAxis = opts.zAxis;
     
-    var x = buildAxis("x", layer);
+    var x = buildAxis("x", layer, myChart);
     x.hidden = hidden;
     
-    var y = buildAxis("y", layer);
+    var y = buildAxis("y", layer, myChart);
     y.hidden = hidden;
     
     //z for bubbles
     var z = null;
     if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
-      z = buildAxis("z", layer);
+      z = buildAxis("z", layer, myChart);
     };
     
     //here think I need to evaluate group and if missing do null
@@ -109,7 +96,7 @@ function drawChart(opts, data){
   };
     
   //function to build axes
-  function buildAxis(position,layer){
+  function buildAxis(position,layer, myChart){
     var axis;
     var axisopts = opts[position+"Axis"];
     
@@ -155,7 +142,7 @@ function drawChart(opts, data){
     .size([ opts.width, opts.height-100])
     .bands();
   
-  var svgGrid = d3.select("#" + opts.id).select("svg")
+  var svgGrid = d3.select("#" + opts.id).append("svg")
     .attr("width", opts.width)
     .attr("height", opts.height);
    // .attr("transform", "translate(50,0)");
@@ -202,7 +189,7 @@ function drawChart(opts, data){
 
         
         // Get the shape from the main chart on which this chart is based
-        var shape = d3.select(this);
+        //var shape = d3.select(this);
 
 
         // Position the chart inside the shape
