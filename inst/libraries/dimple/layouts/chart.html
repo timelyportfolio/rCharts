@@ -47,9 +47,9 @@ var {{ chartId }} = (function() {
   if(opts.defaultColors.length) {
     //need to adjust this if not handed an array of arrays
     //depends on which toJSON used in R
-    if (opts.defaultColors[0].length) {
-      opts.defaultColors = opts.defaultColors[0];
-    }
+    //if (opts.defaultColors[0].length) {
+    //  opts.defaultColors = opts.defaultColors[0];
+    //}
     defaultColorsArray = [];
     if (typeof(opts.defaultColors) == "function") {
       //assume this is a d3 scale
@@ -68,10 +68,30 @@ var {{ chartId }} = (function() {
     } else {
       defaultColorsArray = opts.defaultColors;
     }
-
+    //add the colors from the array into the chart's defaultColors
     myChart.defaultColors = defaultColorsArray.map(function(d) {
       return new dimple.color(d);
-    });  
+    });
+    
+    //if colors not assigned with no keys
+    if (!(Object.keys(myChart._assignedColors).length)) {
+      //let's just assign colors in order with each unique
+      //this is important if facetting where need colors assigned
+      //if not in all pairs
+      d3.set(
+        data.map(function(d){
+          //dimple colors by last item in groups
+          return d[opts.groups[opts.groups.length-1]]
+        })
+      ).values().forEach(function(u,i){
+        //u will be our uniqe and will pick color from defaultColorsArray
+        //console.log([u,defaultColorsArray[i]].concat());
+        myChart.assignColor( u, defaultColorsArray[i % defaultColorsArray.length])
+      })
+    }
+  }
+
+ 
   //do series
   //set up a function since same for each
   //as of now we have x,y,groups,data,type in opts for primary layer
