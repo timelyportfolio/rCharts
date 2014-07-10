@@ -10,48 +10,48 @@ function drawChart(opts, data){
   var c = null;
   var assignedColors = {};
   
-        //move this to top or make function since duplicated
-      //allow manipulation of default colors to use with dimple
-      if(opts.defaultColors.length) {
-        defaultColorsArray = [];
-        if (typeof(opts.defaultColors) == "function") {
-          //assume this is a d3 scale
-          //if there is a domain for the color scale given
-          //then we will need to assign colors with dimples assignColor
-          if( opts.defaultColors.domain().length > 0 ){
-            defaultColorsArray = opts.defaultColors.range();
-            opts.defaultColors.domain().forEach( function( d, i ) {
-              assignedColors[d] = new dimple.color(opts.defaultColors.range()[i])
-            })
-          } else {
-            for (var n=0;n<opts.defaultColors.range().length;n++) {
-              defaultColorsArray.push(opts.defaultColors(n));
-            };
-          }
-        } else {
-          defaultColorsArray = opts.defaultColors;
-        }
-
-        
-        //if colors not assigned with no keys and opts.groups
-        if (!(Object.keys(assignedColors).length) & Boolean(opts.groups)) {
-          //let's just assign colors in order with each unique
-          //this is important if facetting where need colors assigned
-          //if not in all pairs
-          opts.groups = (typeof opts.groups == "string") ? [opts.groups] : opts.groups;
-          d3.set(
-            data.map(function(d){
-              //dimple colors by last item in groups
-              return d[opts.groups[opts.groups.length-1]]
-            })
-          ).values().forEach(function(u,i){
-            //u will be our uniqe and will pick color from defaultColorsArray
-            //console.log([u,defaultColorsArray[i]].concat());
-            assignedColors[u] = new dimple.color(defaultColorsArray[i % defaultColorsArray.length])
-          })
-        }
+    //move this to top or make function since duplicated
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    defaultColorsArray = [];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //if there is a domain for the color scale given
+      //then we will need to assign colors with dimples assignColor
+      if( opts.defaultColors.domain().length > 0 ){
+        defaultColorsArray = opts.defaultColors.range();
+        opts.defaultColors.domain().forEach( function( d, i ) {
+          assignedColors[d] = new dimple.color(opts.defaultColors.range()[i])
+        })
+      } else {
+        for (var n=0;n<opts.defaultColors.range().length;n++) {
+          defaultColorsArray.push(opts.defaultColors(n));
+        };
       }
-  
+    } else {
+      defaultColorsArray = opts.defaultColors;
+    }
+
+    
+    //if colors not assigned with no keys and opts.groups
+    if (!(Object.keys(assignedColors).length) & Boolean(opts.groups)) {
+      //let's just assign colors in order with each unique
+      //this is important if facetting where need colors assigned
+      //if not in all pairs
+      opts.groups = (typeof opts.groups == "string") ? [opts.groups] : opts.groups;
+      d3.set(
+        data.map(function(d){
+          //dimple colors by last item in groups
+          return d[opts.groups[opts.groups.length-1]]
+        })
+      ).values().forEach(function(u,i){
+        //u will be our uniqe and will pick color from defaultColorsArray
+        //console.log([u,defaultColorsArray[i]].concat());
+        assignedColors[u] = new dimple.color(defaultColorsArray[i % defaultColorsArray.length])
+      })
+    }
+  }
+
   
   //do series
   //set up a function since same for each
@@ -264,9 +264,11 @@ function drawChart(opts, data){
           }
         
           //add the colors from the array into the chart's defaultColors
-          subChart.defaultColors = defaultColorsArray.map(function(d) {
-            return new dimple.color(d);
-          });          
+          if (typeof defaultColorsArray != "undefined"){
+            subChart.defaultColors = defaultColorsArray.map(function(d) {
+              return new dimple.color(d);
+            });          
+          }
           subChart._assignedColors = assignedColors;
           
           buildSeries(opts, false, subChart);
