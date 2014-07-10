@@ -300,7 +300,10 @@ var {{ chartId }} = (function() {
             //catch all for other options
             //these can be provided by dMyChart$chart( ... )
             {{{ chart }}}  
-          
+            
+            //add facet row and column in case we need later
+            subChart.facetposition = cell.values;
+            
             subCharts.push(subChart);
           })
   
@@ -340,8 +343,12 @@ var {{ chartId }} = (function() {
       subCharts.filter(function(d){
         return d.x!=xpos[0];
       }).forEach(function(d){
+        d.series[0]._dropLineOrigin = function(){
+          return {"x" : xpos[0],"y" : ypos[1] + d._heightPixels()}
+        }
         d.axes.forEach(function(axis){
           if (axis.position === "y"){
+            //leave there for reference but set opacity 0
             axis.shapes.style("opacity",0);
             axis.titleShape.style("opacity",0);
           }
@@ -351,8 +358,12 @@ var {{ chartId }} = (function() {
       subCharts.filter(function(d){
         return d.y!=ypos[1];
       }).forEach(function(d){
+        d.series[0]._dropLineOrigin = function(){
+          return {"x" : xpos[0],"y" : ypos[1] + d._heightPixels()}
+        }        
         d.axes.forEach(function(axis){
           if (axis.position === "x"){
+            //leave there for reference but set opacity 0
             axis.shapes.style("opacity",0);
             axis.titleShape.style("opacity",0);
           }
