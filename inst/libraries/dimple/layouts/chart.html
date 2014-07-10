@@ -349,8 +349,8 @@ var {{ chartId }} = (function() {
         d.axes.forEach(function(axis){
           if (axis.position === "y"){
             //leave there for reference but set opacity 0
-            axis.shapes.style("opacity",0);
-            axis.titleShape.style("opacity",0);
+            if (axis.shapes) axis.shapes.style("opacity",0);
+            if (axis.titleShape) axis.titleShape.style("opacity",0);
           }
         })
       });
@@ -364,8 +364,8 @@ var {{ chartId }} = (function() {
         d.axes.forEach(function(axis){
           if (axis.position === "x"){
             //leave there for reference but set opacity 0
-            axis.shapes.style("opacity",0);
-            axis.titleShape.style("opacity",0);
+            if (axis.shapes) axis.shapes.style("opacity",0);
+            if (axis.titleShape) axis.titleShape.style("opacity",0);
           }
         })
       });
