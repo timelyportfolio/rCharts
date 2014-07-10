@@ -342,8 +342,8 @@ var {{ chartId }} = (function() {
       }).forEach(function(d){
         d.axes.forEach(function(axis){
           if (axis.position === "y"){
-            axis.shapes.remove();
-            axis.titleShape.remove();
+            axis.shapes.style("opacity",0);
+            axis.titleShape.style("opacity",0);
           }
         })
       });
@@ -353,8 +353,8 @@ var {{ chartId }} = (function() {
       }).forEach(function(d){
         d.axes.forEach(function(axis){
           if (axis.position === "x"){
-            axis.shapes.remove();
-            axis.titleShape.remove();
+            axis.shapes.style("opacity",0);
+            axis.titleShape.style("opacity",0);
           }
         })
       });
