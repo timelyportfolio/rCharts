@@ -165,6 +165,8 @@ var {{ chartId }} = (function() {
         
   
     //if facet not provided for x or y make Dummy variable
+    //handle NULL facet
+    if (typeof opts.facet == "undefined") opts.facet = {}
     opts.facet.x = opts.facet.x ? opts.facet.x : "Dummy"
     opts.facet.y = opts.facet.y ? opts.facet.y : "Dummy"    
     if(opts.facet.x === "Dummy" || opts.facet.y === "Dummy") {
@@ -231,7 +233,7 @@ var {{ chartId }} = (function() {
           // Draw a new chart which will go in the current shape
           var subChart = new dimple.chart(svgGrid, filteredData);
   
-          
+          if (tuples.length > 1){
             // Position the chart inside the shape
             subChart.height = grid.nodeSize()[1]
             subChart.width = grid.nodeSize()[0]      
@@ -251,7 +253,12 @@ var {{ chartId }} = (function() {
                 parseFloat(grid.nodeSize()[1]) - 10
               );
             }  
-            
+          } else { //only one chart
+            if (opts.bounds) {
+              subChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+            }
+          }
+          
             //dimple allows use of custom CSS with noFormats
             if(opts.noFormats) { subChart.noFormats = opts.noFormats; };
             
@@ -280,14 +287,14 @@ var {{ chartId }} = (function() {
           
             //unsure if this is best but if legend is provided (not empty) then evaluate
             if(d3.keys(opts.legend).length > 0) {
-              var l =myChart.addLegend();
+              var l =subChart.addLegend();
               d3.keys(opts.legend).forEach(function(d){
                 l[d] = opts.legend[d];
               });
             }
             //quick way to get this going but need to make this cleaner
             if(opts.storyboard) {
-              myChart.setStoryboard(opts.storyboard);
+              subChart.setStoryboard(opts.storyboard);
             };
             
             //catch all for other options

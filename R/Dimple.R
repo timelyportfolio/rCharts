@@ -43,6 +43,9 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
   legend = function(...){
     .self$set(legend = list(...))
   },
+  facet = function(..., replace = F){
+    params$facet <<- setSpec(params$facet, ..., replace = replace)
+  },  
   addFilters = function(...){
     .self$setTemplate(
       page = 'rChartControls2.html',
