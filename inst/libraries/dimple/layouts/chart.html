@@ -3,7 +3,7 @@ var {{ chartId }} = (function() {
   var opts = {{{ opts }}},
     data = {{{ data }}};
   
-  drawChart(opts,data);
+  return drawChart(opts,data);
   
   function drawChart(opts, data){ 
     var subCharts = [];
@@ -352,7 +352,7 @@ var {{ chartId }} = (function() {
         })
       });
     }
+  return subCharts;
   }
-  return myChart;
 })();
 </script>
