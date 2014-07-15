@@ -77,7 +77,14 @@ rCharts = setRefClass('rCharts', list(params = 'list', lib = 'character',
       lib = LIB$name,
       container = container
     ))
-    writeLines(c(assetHTML, chartDiv, .self$html(params$dom)))
+    afterScript = render_template(
+      templates$afterScript %||% "<script></script>"
+      ,list(
+        chartId = params$dom
+        ,container = container
+      )
+    )
+    writeLines(c(assetHTML, chartDiv, .self$html(params$dom), afterScript))
   },
   render = function(chartId = NULL, cdn = F, static = T, standalone = F){
     params$dom <<- chartId %||% params$dom

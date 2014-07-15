@@ -68,7 +68,7 @@ toChain <- function(x, obj){
 }
 
 #provide this variation of toChain for dimple that wants 
-#a chain myChart[x] = x instead of myChart(x)
+#a chain subChart[x] = x instead of subChart(x)
 toChain3 <- function(x, obj){
   config <- sapply(names(x), USE.NAMES = F, function(key){
     sprintf("  %s.%s = %s;", obj, key, toJSON2(x[[key]]))

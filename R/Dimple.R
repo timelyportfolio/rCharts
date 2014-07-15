@@ -77,7 +77,7 @@ Dimple <- setRefClass('Dimple', contains = 'rCharts', methods = list(
     #need to explore this
     #as of now though chart is not being used
     #offer chart chain if a user might like to take advantage
-    chart = toChain3(params$chart, 'myChart')
+    chart = toChain3(params$chart, 'subChart')
     controls_json = toJSON(params$controls)
     controls = setNames(params$controls, NULL)
     filters_json = toJSON(params$filters)
