@@ -1,21 +1,13 @@
-<div class='container' ng-controller="DemoCtrl">
+<div class='container'>
   <div class='row'>
     <div class='col-md-3'>
-      <form class='well'>
-    		{{# controls }}
-        <label><b>{{label}}</b></label>
-    		<select class='form-control' ng-model="opts.{{name}}" 
-          ng-options="ctl for ctl in controls.{{name}}.values">   
-    		</select><br>
-				{{/ controls }}
-        {{# hasFilter }}
-        <select
-          ng-model="selected" 
-          ng-options="c as c.value group by c.variable for c in filters" 
-          class="form-control" multiple size="10">
-        </select>
-        {{/ hasFilter }}
-      </form>
+      <div class="btn-group" data-toggle="buttons">
+      	{{{# filters_json }}}
+          <label class="btn btn-primary active">
+        		<input type="radio" name="options" id="option1" checked> {{ value }} </input>
+          </label>
+				{{{/ filters_json }}}
+      </div>    
     </div>
     <div class='col-md-8'>
       <div class="bs-docs-example">
@@ -28,37 +20,15 @@
   </div>
 </div>
 <script type="text/javascript">
-function DemoCtrl($scope){
-  $scope.opts = {{{ opts }}}
-  $scope.data = {{{ data }}}
-  $scope.controls = {{{ controls_json }}} 
-  $scope.filters = {{{ filters_json }}}
-  
-  $scope.drawChart = function(){
-    drawChart($scope.opts, $scope.data)  
-  }
-  
-  $scope.$watch('selected', function(){
-    if (!(typeof($scope.selected) === "undefined")) {
-      $scope.opts.selected = $scope.selected.map(function(d){
-        selectKey={};
-        selectKey[d.variable]=d.value;
-        return selectKey;
-      })
-    }
-  }) 
-  
-  $scope.$watch('opts',function(){
-    if($scope.opts.facetx) {
-      $scope.opts.facet.x = $scope.opts.facetx
-    }
-    $scope.drawChart()
-	}, true)
-}  
+
 
 //global for now until I come up with a better idea
 var svg;
 var subCharts = [];
+var opts = {{{ opts }}};
+var data = {{{ data }}};
+
+
 
 function drawChart(opts, data){ 
   svg = d3.select("#" + opts.id).selectAll("svg")
