@@ -65,9 +65,27 @@ var {{ chartId }} = (function() {
       if (!layer.zAxis) layer.zAxis = opts.zAxis;
       
       var x = buildAxis("x", layer, myChart);
+      //for measure axis dimple sorts at the series level not at axis level
+      if( layer.xAxis.type=="addMeasureAxis" && layer.xAxis.orderRule ){
+        if( typeof layer.xAxis == "string" ){
+          s.addOrderRule( layer.xAxis.orderRule );
+        } else if ( typeof layer.xAxis.orderRule == "object" ) {
+          s._orderRule = layer.xAxis.orderRule;
+        }
+      }
       x.hidden = hidden;
       
       var y = buildAxis("y", layer, myChart);
+      //for measure axis dimple sorts at the series level not at axis level
+      if( layer.yAxis.type=="addMeasureAxis" && layer.yAxis.orderRule ){
+        if( typeof layer.yAxis == "string" ){
+          s.addOrderRule( layer.yAxis.orderRule );
+        } else if ( typeof layer.xAxis.orderRule == "object" ) {
+          s._orderRule = layer.yAxis.orderRule;
+        }
+      }
+        s.addOrderRule( layer.xAxis.orderRule );
+      }      
       y.hidden = hidden;
       
       //z for bubbles
