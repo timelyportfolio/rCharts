@@ -38,8 +38,14 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
     params$x2Axis <<- setSpec(params$x2Axis, ..., replace = replace)
   },
   yAxis = function(..., replace = F){
-    params$yAxis <<- setSpec(params$yAxis, ..., replace = replace)
+    #if type is lineWithFocus and y2Axis not specified
+    #make it the same as xAxis
+    if(  params$type == "lineWithFocusChart" && length(params$y2Axis) == 0 ) {
+      params$y2Axis <<- setSpec(params$y2Axis, ..., replace = replace)
   },
+  y2Axis = function(..., replace = F){
+    params$y2Axis <<- setSpec(params$y2Axis, ..., replace = replace)
+  },    
   getChartParams = function(...){
     params <<- modifyList(params, getLayer(...))
   },
