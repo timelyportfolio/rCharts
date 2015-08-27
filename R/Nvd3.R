@@ -49,11 +49,12 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
     xAxis = toChain(params$xAxis, 'chart.xAxis')
     x2Axis = toChain(params$x2Axis, 'chart.x2Axis')    
     yAxis = toChain(params$yAxis, 'chart.yAxis')
+    y2Axis = toChain(params$y2Axis, 'chart.y2Axis')
     controls_json = toJSON(params$controls)
     filters_json = toJSON(params$filters)
     controls = setNames(params$controls, NULL)
-    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'x2Axis', 'yAxis', 'controls', 'filters'))])
-    list(opts = opts, xAxis = xAxis, x2Axis = x2Axis, yAxis = yAxis, data = data, 
+    opts = toJSON(params[!(names(params) %in% c('data', 'chart', 'xAxis', 'x2Axis', 'yAxis', 'y2Axis', 'controls', 'filters'))])
+    list(opts = opts, xAxis = xAxis, x2Axis = x2Axis, yAxis = yAxis, y2Axis = y2Axis, data = data, 
          chart = chart, chartId = chartId, controls = controls, 
          controls_json = controls_json, CODE = srccode, 
          filters_json = filters_json, hasFilter = (length(params$filters) > 0)
