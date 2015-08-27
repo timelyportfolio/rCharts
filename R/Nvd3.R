@@ -8,7 +8,7 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
   initialize = function(){
     callSuper(); 
     params <<- c(params, list(controls = list(),
-      chart = list(), xAxis = list(), x2Axis = list(), yAxis = list(),
+      chart = list(), xAxis = list(), x2Axis = list(), yAxis = list(), y2Axis = list(),
       filters = list()
     ))
   },
@@ -38,10 +38,12 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
     params$x2Axis <<- setSpec(params$x2Axis, ..., replace = replace)
   },
   yAxis = function(..., replace = F){
+    params$yAxis <<- setSpec(params$yAxis, ..., replace = replace)
     #if type is lineWithFocus and y2Axis not specified
     #make it the same as xAxis
     if(  params$type == "lineWithFocusChart" && length(params$y2Axis) == 0 ) {
       params$y2Axis <<- setSpec(params$y2Axis, ..., replace = replace)
+    }
   },
   y2Axis = function(..., replace = F){
     params$y2Axis <<- setSpec(params$y2Axis, ..., replace = replace)
